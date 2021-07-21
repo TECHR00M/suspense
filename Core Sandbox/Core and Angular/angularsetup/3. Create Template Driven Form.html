@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../css/dracula.css">
+    <link rel="stylesheet" href="../css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+</head>
+<style>
+    kbd {
+        background: black
+    }
+</style>
+
+
+
+
+<body>
+
+  
+<h2>Step 1 Import FormModule</h2>
+To work with <strong>Template-driven forms</strong>, we must import the FormsModule in app.module.ts like below.
+    <div class="row">
+        <div class="col-lg-12">
+            <pre data-keep-tags="kbd, em">
+            <code class="language-sql">
+                import { BrowserModule } from '@angular/platform-browser';
+                import { NgModule } from '@angular/core';
+                import {HttpClientModule} from '@angular/common/http';
+               <kbd> import { FormsModule } from '@angular/forms'; </kbd>
+                
+                import { AppComponent } from './app.component';
+                import { ValueComponent } from './value/value.component';
+                import { NavComponent } from './nav/nav.component';
+                
+                @NgModule({
+                  declarations: [	
+                    AppComponent,
+                    ValueComponent,
+                      NavComponent
+                   ],
+                  imports: [
+                    BrowserModule,
+                    HttpClientModule,
+                   <kbd>FormsModule</kbd>
+                  ],
+                  providers: [],
+                  bootstrap: [AppComponent]
+                })
+                export class AppModule { }
+                
+            </code>
+        </pre>
+
+        </div>
+       
+    </div>
+
+
+
+    <br>
+    <br>
+    <h2>Step2. Form with templating form in Nav.component.html</h2>
+    <p><span style="font-size: 14pt; color: #000000;">We can export the&nbsp;<span style="color: #2dc26b;"><code>ngForm</code>&nbsp;</span>instance into a local template variable using&nbsp;<span style="color: #2dc26b;"><code>ngForm</code>&nbsp;</span>as the key (ex:&nbsp;<code>#<span style="color: #2dc26b;">registerForm</span>="ngForm"</code>). This allows us to access the many properties and methods of&nbsp;<code>ngForm</code> using the template variable <code><span style="color: #2dc26b;">registerForm.</span></code></span></p>
+<p><span style="font-size: 14pt; color: #000000;">We can access json of form as : registerForm.value, registerForm.valid</span></p>
+<hr />
+<p><span style="font-size: 14pt; color: #000000;">We can export <span style="color: #2dc26b;">ngModel </span>instance into a local template variable as #<span style="color: #2dc26b;">name </span>= <span style="color: #2dc26b;">ngModel</span>. Then allow us to access any property of that field like value, valid and so on.</span></p>
+<p><span style="font-size: 14pt; color: #000000;"><code></code></span></p>
+<hr />
+<p><span style="font-size: 14pt; color: #000000;"><code></code></span></p>
+<pre  data-keep-tags="kbd, em">
+    <code class="language-javascript">
+        &lt;form #<kbd>registerForm</kbd>="<kbd>ngForm</kbd>" (ngSubmit)="register(<kbd>user</kbd>)">
+          &lt;div class="row">
+            &lt;div class="col-md-4">
+                &lt;div class="form-group">
+                  &lt;label for="inputName"> Name</label>
+                  &lt;input type="text" name="name" placeholder="name" [(ngModel)]="user.name" class="form-control" #name="ngModel">
+                  //OR Simply
+                  // &lt;input type="text" name="name" placeholder="name" [(ngModel)]="user.name" class="form-control" <kbd>ngModel</kbd>> 
+                  //Simply Take ngModel as "name" property
+                &lt;/div>
+    
+            &lt;/div>
+              &lt;div class="col-md-4">
+                &lt;div class="form-group">
+                  &lt;label for="inputName">Password&lt;/label>
+                  &lt;input type="text" name="password" placeholder="password" [(ngModel)]="user.password"  class="form-control" #password="ngModel">
+                &lt;/div>
+    
+            &lt;/div>
+
+    
+            &lt;/div>
+            &lt;div class="row">
+            &lt;div class="col-12">
+                &lt;button class="btn btn-success" type="submit" [disabled]="registerForm.invalid">Register User&lt;/button>
+             
+                &lt;/div>
+            &lt;/div>
+          &lt;/form>
+
+          Angular Generated Form Model : {{registerForm.value | json}}
+
+            //Angular Generated Forom Model : { "name": "diwas",  "password": null }
+
+          
+
+          Our User Model : {{ user | json}}
+
+          //  Our Employee Model : { "id": null, "name": "diwas", "password": null }
+          ---------------------------------
+
+        // Angular Generated Form can access these form
+        Value : {{registerForm.value | json }} 
+        Valid : {{registerForm.valid}}
+        Touched : {{registerForm.touched  }}
+        Submitted : {{registerForm.submitted  }} 
+          
+    </code>
+</pre>
+
+<div class="row">
+<div class="col-lg-6">
+    <h2>Step 3 in nav.component.ts</h2>
+<pre  data-keep-tags="kbd, em">
+    <code class="language-javascript">
+        import { User } from './../../../../models/HRMS/User';
+        import { Component, OnInit } from '@angular/core';
+        
+        @Component({
+          selector: 'app-employee',
+          templateUrl: './employee.component.html',
+          styleUrls: ['./employee.component.css']
+        })
+        export class EmployeeComponent implements OnInit {
+        
+          user: User = {
+            id: null,
+            userName: 'diwas',
+            password: null
+          };
+        
+          constructor() { }
+        
+          
+          ngOnInit() {
+          }
+        
+          register(user: <kbd>User</kbd>) {
+        
+            console.log(user);
+          }
+        }
+        
+
+    </code>
+</pre>
+<div class="col-lg-6">
+    <pre  data-keep-tags="kbd, em">
+        <code class="language-javascript">
+            export interface User {
+                id: number;
+                userName: string;
+                password: string;
+            }
+            
+        </code>
+    </pre>
+</div>
+</div>
+</div>    
+
+<hr>
+<h2>Directly Bound to name </h2>
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Step 3 in nav.component.ts</h2>
+    <pre  data-keep-tags="kbd, em">
+        <code class="language-javascript">
+            &lt;form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+ 
+            &lt;p>
+            &lt;label for="firstname">First Name&lt;/label>
+            &lt;input type="text" name="firstname" ngModel>
+            &lt;/p>
+               
+            &lt;p>
+            &lt;label for="lastname">Last Name&lt;/label>
+            &lt;input type="text" name="lastname" ngModel>
+            &lt;/p>
+               
+            &lt;p>
+            &lt;label for="email">Email &lt;/label>
+            &lt;input type="text" id="email" name="email" ngModel>
+            &lt;/p>
+            &lt;p>
+            &lt;button type="submit">Submit&lt;button>
+            &lt;/p>
+                  
+            &lt;/form>
+        </code>
+    </pre>
+    </div>
+    <div class="col-lg-6">
+        <pre  data-keep-tags="kbd, em">
+            <code class="language-javascript">
+                onSubmit(contactForm) {
+                    console.log(contactForm.value);
+                  }
+                
+
+                  console output:
+                  country: "1"
+                  firstname: "Sachin"
+                  email:"sachin@gmail.com"
+            </code>
+        </pre>
+    </div>
+    </div>
+  
+
+    <h2>Form Validation in Template Driven</h2>
+    <p><span style="font-size: 14pt; color: #000000;">To use Angular validations<span style="color: #e03e2d;"><strong> we need to disable HTML 5 validation </strong></span>in our form using&nbsp;<span style="color: #e03e2d;"><strong><code>novalidate</code> </strong></span>an attribute. Find the text box with&nbsp; &nbsp;Angular required and minlength validations.&nbsp;</span></p>
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Step 3 in nav.component.ts</h2>
+        <pre  data-keep-tags="kbd, em">
+            <code class="language-javascript">
+                &lt;form #userForm="ngForm" (ngSubmit)="onFormSubmit(userForm)" <kbd>novalidate</kbd>>
+                    &lt;input name="userName" <kbd>required</kbd> <kbd>minlength="5"</kbd> ngModel #userName="ngModel">
+                    &lt;div *ngIf="userName.errors" class="error">
+                        &lt;div *ngIf="userName.errors.required">
+                            <kbd>Username required.</kbd>
+                        &lt;/div>
+                        &lt;div *ngIf="userName.errors.minlength">
+                            <kbd>Minimum length 5 characters.</kbd>
+                        &lt;/div>
+                    &lt;/div>
+                ------
+                &lt;/form> 
+            </code>
+        </pre>
+        </div>
+        <div class="col-lg-6">
+            <pre  data-keep-tags="kbd, em">
+                <code class="language-javascript">
+                    onFormSubmit(userForm) {
+                        console.log(contactForm.value);
+                      }
+                    
+    
+                     
+                </code>
+            </pre>
+            <p><span style="font-size: 14pt; color: #000000;">To get form control object, we need to export&nbsp;<code>ngModel</code>&nbsp;into local template variable as&nbsp;<span style="color: #2dc26b;"><strong><code>#userName="ngModel"</code></strong>.</span> Now using&nbsp;<code>userName</code>&nbsp;we can get form control value, validity status and error object. Error object is obtained as&nbsp;<code>userName.errors</code>&nbsp;and to get particular validation such as&nbsp;<code>required</code>&nbsp;and&nbsp;<code>minlength</code>, we write code as&nbsp;<code>userName.errors.required</code>&nbsp;and&nbsp;<code>userName.errors.minlength</code>&nbsp;to display error message accordingly. </span></p>
+        </div>
+        </div>
+    <script src="../js/prism.js"></script>
+    <script type="text/javascript">
+        Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+
+    </script>
+</body>
+
+</html>

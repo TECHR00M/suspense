@@ -1,0 +1,170 @@
+<html>
+<head>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=html&amp;skin=sons-of-obsidian"></script>
+    <!-- skin default,desert,sunbrust,sons-of-obsidian,doxy-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://unpkg.com/vue"></script>
+
+<style>
+xmp.prettyprint{
+
+    font-size:12pt;
+    font-family:"Consolas, 'Courier New', monospace";
+
+}
+</style>
+ 
+</head>
+<body>
+<ul>
+<li><span style="font-size: 18pt;">&nbsp;<strong>middleware defined using&nbsp;<span style="color: #e03e2d;"><code>app.Use</code></span>&nbsp;may call next middleware component in the pipeline. </strong></span></li>
+<li><span style="font-size: 18pt;"><strong>&nbsp;middlware defined using&nbsp;<span style="color: #e03e2d;"><code>app.Run</code></span>&nbsp;will never call subsequent middleware.</strong> </span></li>
+<li><span style="font-size: 18pt;"><strong>Should have only one <span style="color: #e03e2d;">app.Run</span> in pipeline</strong></span></li>
+</ul>
+<div>
+
+ <xmp class="prettyprint">
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Before First Use");        // 1
+                await next();                                                // call next app.Use or app.Run   2
+                await context.Response.WriteAsync("After First Use ");      // 4
+            });
+
+
+            app.Run(async context => {
+                await context.Response.WriteAsync("Inside middleware defined using app.Run");           // 3 
+            });
+
+
+            app.Use(async (context, next) =>
+            { 
+                await context.Response.WriteAsync("After Run ");                 // Willnot execute
+                await context.Response.WriteAsync("Response 2nd After Run");     // Willnot execute
+                await next();
+                await context.Response.WriteAsync("Response 3rd After Run");
+            });
+        }
+
+</div>
+
+
+
+</xmp>
+<h2>Output</h2>
+Before First Use<br />Inside middleware defined using app.Run<br />After First Use 
+
+
+<div>
+<pre><span style="font-size: 18pt; color: #000000;"> Here, middleware defined after <strong><code>app.Run</code></strong> has not&nbsp; executed.&nbsp;</span></pre>
+<p>&nbsp;</p>
+</div>
+
+<p>&nbsp;===================================================================</p>
+
+
+ <xmp class="prettyprint">
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Before First Use");
+                await next();
+                await context.Response.WriteAsync("After First Use ");
+            });
+
+
+            app.Run(async context => {
+                await context.Response.WriteAsync("Inside middleware defined using app.Run");
+            });
+
+</xmp>
+
+
+<hr>
+<h4>If no app.Run then willnot response back 
+<xmp class="prettyprint">
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Before First Use");   // 1
+                await next();                                            // No run middleware so willnot execute below next
+                await context.Response.WriteAsync("After First Use ");   // WIllnot get execute
+            });
+        }
+
+</xmp>
+
+Output: <br>
+Before First Use
+
+<hr>
+<h2>Custom MiddleWare</h2>
+Two Rules <br>
+<p><span style="font-size: 18pt; color: #000000;">1. The middleware class must declare a <strong><span style="color: #2dc26b;">non-static public constructor</span></strong> with at least one parameter of type&nbsp;<span style="color: #2dc26b;"><a style="color: #2dc26b;" href="https://docs.microsoft.com/en-us/dotnet/api/Microsoft.AspNetCore.Http.RequestDelegate?view=aspnetcore-2.0">RequestDe<strong>l</strong>egate</a>&nbsp;</span></span></p>
+<p><span style="font-size: 18pt; color: #000000;">What actually you get here is the reference to the next middleware in the pipeline. When you invoke this&nbsp;RequestDelegate&nbsp;you&nbsp;are actually invoking the next middleware in the pipeline</span></p>
+<p><span style="font-size: 18pt; color: #000000;">2. The middleware class must define a public method named&nbsp;<span style="color: #2dc26b;"><strong>Invoke&nbsp;</strong></span>that takes an&nbsp;<strong><span style="color: #2dc26b;">HttpContext&nbsp;</span></strong>and returns a&nbsp;<strong><span style="color: #2dc26b;">Task</span></strong>. This is the method that gets invoked when the request arrives at the middleware</span></p>
+
+Example: <br>
+Step 1:Create SimpleMiddleware.cs
+<xmp class="prettyprint">
+  public class SimpleMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public SimpleMiddleware(RequestDelegate next)
+        {
+          //First, in the constructor, we will get the reference to the next middleware in the pipeline. We store it in local variable _next
+            _next = next;
+        }
+
+        public async System.Threading.Tasks.Task Invoke(HttpContext context)
+        {
+            await context.Response.WriteAsync("<div> Hello from Simple Middleware </div>");
+            await _next(context);
+            await context.Response.WriteAsync("<div> Bye from Simple Middleware </div>");
+        }
+    }
+ </xmp>
+Step 2:  register the middleware in the request pipeline
+<xmp class="prettyprint">
+  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseStaticFiles();
+            app.UseMiddleware<SimpleMiddleware>();   //use before Run 
+            app.Run(async context => {
+                await context.Response.WriteAsync("Inside middleware defined using app.Run");
+            });
+        }
+</xmp>
+
+<hr>
+Method 2: Using Extension Method <br>
+SomeMiddlewarerExtensions.cs
+<xmp class="prettyprint">
+  public static class SomeMiddlewarerExtensions
+    {
+        public static IApplicationBuilder UseSimpleMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<SimpleMiddleware>();
+        }
+    }
+</xmp>
+THen in startup use it like :
+<xmp class="prettyprint">
+  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseStaticFiles();
+            app.UseSimpleMiddleware();   // instead of app.UseMiddleware<SimpleMiddleware>();
+            app.Run(async context => {
+                await context.Response.WriteAsync("Inside middleware defined using app.Run");
+            });
+        }
+</xmp>
+
+  </body>
+</html>

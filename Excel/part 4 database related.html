@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+     <link rel="stylesheet" href="../ASP Sandbox/css/bootstrap.css">
+     <link rel="stylesheet" href="../ASP Sandbox/css/bootstrap-grid.css">
+     <link rel="stylesheet" href="../ASP Sandbox/css/bootstrap-reboot.css">
+     <link rel="stylesheet" href="../ASP Sandbox/css/dracula.css">
+     <link rel="stylesheet" href="../ASP Sandbox/css/dracula-prism.css">
+     <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+     <style>
+    kbd {
+        background: black
+    }
+</style>
+</head>
+
+<body>
+
+     <pre>
+  <code class="language-sql">
+        ="INSERT INTO dbo.customers(id,name,roll) VALUES('"&A1&"','"&B1&"','"&C1&"')"
+    </code>
+    </pre>
+
+     ==================================================================
+     <h2>Concatenate(Here concate using - sign)</h2>
+     <pre>
+        <code class="language-sql">
+                =A3&"-"&B3
+                //OR
+                =concatenate(A3,"-",B3)
+
+        </code>
+    </pre>
+         <img src="https://i.ibb.co/yBwJQzW/using-concate-functionality.png">
+     <br>
+     <img src="https://i.ibb.co/PTwQtMq/output-of-concate-functionality.png">
+
+     <br>
+================================================================
+<h2>Concatenate Best Way using Concatenate and Text Fonctino
+Syntax :
+    <pre data-keep-tags="kbd, em">
+        <code class="language-sql">
+               Concatenate(Text1,Text2,Text3 ....)
+        </code>
+    </pre>
+<div class="row">
+<div class="col-lg-12">
+<img src="https://i.ibb.co/9ZzYdQx/excel-concate.jpg">
+</div>
+<div class="col-lg-12">
+<pre data-keep-tags="kbd, em">
+        <code class="language-csharp">
+=CONCATENATE(<kbd>"update mytable set startdate="</kbd>,<kbd>TEXT(A2,"MM/dd/YYYY")</kbd>,"<kbd>,enddate=",TEXT(B2,"MM/dd/YYYY")</kbd>)
+// update mytable set startdate=02/26/2019,enddate=02/26/2019
+        </code>
+    </pre>
+
+</div>
+</div>
+
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+=CONCATENATE(<kbd>"insert into sms.k2_staffs(phoneno,districtid,staffname) values("</kbd>, <kbd>"'"</kbd>, <kbd>D3</kbd>,<kbd>"'"</kbd>,<kbd>","</kbd>,<kbd>E3</kbd>,<kbd>","</kbd>,<kbd>"'"</kbd>,<kbd>C3</kbd>,<kbd>"'"</kbd>,<kbd>");</kbd>")
+
+// insert into sms.k2_staffs(phoneno,districtid,staffname) values('9865608750',71,'Aishwary Thayat');
+
+    </code>
+</pre>
+
+
+     <h2>Create Table</h2>
+     <pre>
+            <code class="language-sql">
+                 1) select table content
+                 2) ctrl + T
+            </code>
+        </pre>
+
+     <h2>Print page</h2>
+     <pre>
+                <code class="language-sql">
+                     1) Ctrl + P
+                </code>
+            </pre>
+
+     <h2>Show/Hide Tab </h2>
+     <pre>
+                    <code class="language-sql">
+                         1) Ctrl + F1
+                    </code>
+                </pre>
+     <br>
+     <h2>Select Entire Column </h2>
+     <pre>
+                        <code class="language-sql">
+                             1) Ctrl + Space
+                        </code>
+                    </pre>
+
+     <br>
+     <h2>Select Entire Rows </h2>
+     <pre>
+                            <code class="language-sql">
+                                 1) Shift + Space
+                            </code>
+                        </pre>
+     <h2>Delete entire column or row </h2>
+     <pre>
+                                <code class="language-sql">
+                                     1) Select entire row or column
+                                     2) Then press CTRL + -
+                                </code>
+                            </pre>
+     <h2>Excel Data to chart </h2>
+     <pre>
+                                    <code class="language-sql">
+                                         1) F11
+                                    </code>
+                                </pre>
+     <br>
+     <h2>Switch Between the sheet </h2>
+     <pre>
+                                        <code class="language-sql">
+                                             1) CTRL + pagedown
+                                        </code>
+                                    </pre>
+     <script src="../ASP Sandbox/js/prism.js"></script>
+     <script type="text/javascript">
+         Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+     </script>
+</body>
+
+</html>

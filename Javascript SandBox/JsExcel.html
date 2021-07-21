@@ -1,0 +1,249 @@
+<html>
+
+<head>
+    <script
+        src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=java&amp;skin=sons-of-obsidian"></script>
+    <!-- skin default,desert,sunbrust,sons-of-obsidian,doxy-->
+
+
+
+    <style>
+        xmp.prettyprint {
+            font-size: 12pt;
+            font-family: monospace;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <xmp class="prettyprint">
+
+        <input type="button" oncliek="tableToExcel('pvtTable','Any Name')" value="ExcelDownload">
+
+        <table class="pvtTable">
+            ...
+        </table>
+
+
+
+        <script type="text/javascript">
+            var tableToExcel = (function () {
+                var uri = 'data:application/vnd.ms-excel;base64,'
+                    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><style> table, td {border:2em solid black;padding:20px !important;border-spacing: 10px}table {border-collapse:collapse}</style> <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                    , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+                    , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+                return function (table, name) {
+
+                    if (!table.nodeType) table = document.getElementsByClassName(table)[0] // look here we have taken first table with classname 
+                    var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+                    window.location.href = uri + base64(format(template, ctx))
+                }
+            })()
+
+
+        </script>
+        </script>
+
+    </xmp>
+
+<h1>Alternative Simple One</h1>
+<a href="https://jsfiddle.net/Behseini/kxLorne2/">Excel</a>
+    <br>
+    <br>
+    <br>
+
+
+<h2>Div to PDF</h2>
+<xmp class="prettyprint">
+    <h2><A href="https://www.encodedna.com/javascript/practice-ground/default.htm?pg=convert_html_table_to_pdf_using_javascript">Linke Here</A></h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table
+        {
+            width: 300px;
+            font: 17px Calibri;
+        }
+        table, th, td 
+        {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="tab">
+        <table> 
+            <tr>
+                <th>Name</th>
+                    <th>Age</th>
+                        <th>Job</th>
+            </tr>
+            <tr>
+                <td>Brian</td>
+                    <td>41</td>
+                        <td>Blogger</td>
+            </tr>
+            <tr>
+                <td>Matt</td>
+                    <td>25</td>
+                        <td>Programmer</td>
+            </tr>
+            <tr>
+                <td>Arun</td>
+                    <td>39</td>
+                        <td>Writter</td>
+            </tr>
+        </table>
+    </div>
+
+    <p>
+        <input type="button" value="Create PDF" 
+            id="btPrint" onclick="createPDF()" />
+    </p>
+</body>
+<script>
+    function createPDF() {
+        var sTable = document.getElementById('tab').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 17px Calibri;}";
+        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+</script>
+</html>
+
+
+
+</xmp>
+
+<hr>
+<hr>Using SheetJs<h2>
+Above is without any library , will works only for .xls excel file. When you try to open .xls file will gives warning.So, lets try using SheetJs which does produce .xlsx file
+<br>
+Features <br>
+1) Can Convert Html Table to excel .xlsx  <br>
+2) Import Excel and Display in Web <br>
+3) Querying in Excel using Web SQL <br> 
+4) Many More <br>
+Official sites:
+<xmp class="prettyprint">
+    https://sheetjs.com/demos  
+
+    https://redstapler.co/sheetjs-tutorial-html-table-to-excel/
+</xmp>
+Sample Example <br>
+<xmp class="prettyprint">
+    <html>
+<head>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+</head>
+<body>
+<div id="navbar"><span>Red Stapler - SheetJS </span></div>
+<div id="wrapper">
+<table id="table" border="1" class="xport">
+  <tbody>
+    <tr>
+      <td colspan="4">Some merged cell</td>
+    </tr>
+    <tr>
+      <td >This</td>
+      <td >is</td>
+      <td >a</td>
+      <td >Test</td>
+    </tr>
+    <tr>
+      <td >Fee</td>
+      <td >Fi</td>
+      <td >Fo</td>
+      <td >Fum</td>
+    </tr>
+    <tr>
+      <td >Foo</td>
+      <td ></td>
+      <td >Bar</td>
+      <td ></td>
+    </tr>
+    <tr>
+      <td ></td>
+      <td >Baz</td>
+      <td >☃</td>
+      <td >Qux</td>
+    </tr>
+    <tr>
+      <td >1</td>
+      <td >2</td>
+      <td >3</td>
+      <td >4</td>
+    </tr>
+  </tbody>
+</table>
+<button id="test">Test</button>
+</div>
+<style>
+.xport, .btn {
+	display: inline;
+	text-align:center;
+}
+a { text-decoration: none }
+#table, #table th, #table td { border: 1px solid black }
+
+</style>
+
+
+<script>
+document.getElementById("test").addEventListener("click",function(){
+  var type = "xlsx";
+  return export_table_to_excel('table', type || 'xlsx');
+})
+function s2ab(s) {
+	if(typeof ArrayBuffer !== 'undefined') {
+		var buf = new ArrayBuffer(s.length);
+		var view = new Uint8Array(buf);
+		for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+		return buf;
+	} else {
+		var buf = new Array(s.length);
+		for (var i=0; i!=s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+		return buf;
+	}
+}
+function export_table_to_excel(id, type, fn) {
+  var wb = XLSX.utils.table_to_book(document.getElementById(id), {sheet:"Sheet JS"});
+  var wbout = XLSX.write(wb, {bookType:type, bookSST:true, type: 'binary'});
+  var fname = fn || 'test.' + type;
+  try {
+    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), fname);
+  } catch(e) { if(typeof console != 'undefined') console.log(e, wbout); }
+  return wbout;
+}
+
+</script>
+</body>
+</html>
+</xmp>
+</body>

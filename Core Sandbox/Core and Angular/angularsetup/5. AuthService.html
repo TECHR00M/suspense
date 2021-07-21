@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../css/dracula.css">
+    <link rel="stylesheet" href="../css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+</head>
+<style>
+    kbd {
+        background: black
+    }
+</style>
+
+
+
+
+<body>
+
+<hr>
+
+<div class="row">
+    <div class="col-lg-6">
+        Register.component.cshtml
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+                &lt;form #registerForm="ngForm" <kbd>(ngSubmit)="register()"</kbd>>
+                    
+                    &lt;div class="form-group">
+                        &lt;input type="text" class="form-control" name="username" placeholder="Username" <kbd>[(ngModel)]="model.userName"</kbd>>
+                    &lt;/div>
+                  
+                     
+                  
+                    &lt;div class="form-group">
+                        &lt;input type="password" class="form-control" name="password" placeholder="Password" <kbd>[(ngModel)]="model.password"</kbd>>
+                    &lt;/div>
+                  
+                    &lt;div class="form-group text-center">
+                        &lt;button class="btn btn-success" type="submit">Register&lt;/button>
+                    &lt;/div>
+                    
+                  </form>
+                </code>
+
+        </pre>
+    </div>
+    <div class="col-lg-6">
+        //AuthService
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+        
+                import { Injectable } from '@angular/core';
+                import { HttpClient } from '@angular/common/http';
+                import { map } from 'rxjs/operators';
+                
+                @Injectable({
+                  providedIn: 'root'
+                })
+                export class AuthService {
+               <kbd>baseUrl = "https://localhost:44391/api/auth/";</kbd>
+                
+                  constructor(<kbd>private http: HttpClient</kbd>) { }
+                
+                
+                  login(model: any) {
+                      //call Csharp
+                    return this.http.post(this.baseUrl + 'login', model).pipe(
+                      map((response: any) => {
+                        const user = response;
+                        if (user) {
+                            <kbd>localStorage.setItem('token', user.token);</kbd>
+                        }
+                      })
+                    );
+                  }
+                
+                 // tslint:disable-next-line: typedef
+                  register(model: any) {
+                    
+                    return this.http.post(this.baseUrl + 'register', model);
+                  }
+                
+                
+                }
+                
+                
+                
+              
+            </code>
+        </pre>
+        
+    </div>
+
+
+   
+</div>
+
+register.component.ts
+<pre data-keep-tags="kbd, em">
+    <code class="language-javascript">    
+
+
+
+
+        register() {
+         <kbd> this.authService.register(this.model)</kbd>.subscribe(() => {
+           
+           
+          }, error => {
+           
+              console.log(error);
+           });
+        }</code>
+
+</pre>
+    <script src="../js/prism.js"></script>
+    <script type="text/javascript">
+        Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+
+    </script>
+</body>
+
+</html>
+
+

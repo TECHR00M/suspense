@@ -1,0 +1,46 @@
+1)Install Xamp
+2)Install wordpress
+Goto wordpress.org and download wordpress
+Unzip wordpress folder then will get wordpress folder
+
+3) Open Xamp/htdocs
+Inside htdocs paste wordpress folder of step2
+
+4) Open xamp and start apache and mysql server .
+
+5)Goto url:
+
+localhost:[port]/wordpress
+
+Will open wordpres install which was in htdocs.
+
+Then create setup:
+
+
+Database Name
+
+
+
+http://localhost:[port]/phpmyadmin
+
+
+
+
+
+If given access denied ( then restart server)
+
+Unable to run mysql then :  https://www.youtube.com/watch?v=3xtFmOEXwok
+
+
+
+=================================================================================
+Install Wordpress
+Login
+Change Password
+Delete Plugins (Deactivate all and then delete)
+Update Wordpress (Dashboard / Update)
+Change Permalinks ( Settings / Permalinks) ==> how url look like.
+Change Website Title and Tag Line .(Settings/General) Eg. Neil Patel is Title and "Helping to success you online" is  Tag
+Install Theme ( Apperance / Theme  eg. Astra)
+Install Starter Template ( Plugins /add ==>search for starter template and install)
+Change Page (ie. Contact, Service, Disclaimer etc)
