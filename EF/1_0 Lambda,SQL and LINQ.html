@@ -978,6 +978,44 @@ Output as :
     _context.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
   </code>
 </pre>
+
+
+<hr>
+<h2>Join one table with Top Table Another</h2>
+<pre>
+  <code class="language-csharp">
+    var resultSet = from res in queryable
+                    let p = eod.Where(x => x.BranchId == res.BranchId).FirstOrDefault()
+                    orderby p.CreatedDate descending
+                    select new CashCounterListViewModel()
+                    {
+                        Id = res.Id,
+                        BranchId = res.BranchId,
+                        Branch = res.BranchDetails.Name,
+                        CanEdit = p.ProcessingStatus == ProcessingStatus.Approved? false:true,
+                        Amount = res.Amount
+                    };
+
+
+
+//Generates Query Like this:
+
+select id,branchid,
+
+
+SELECT [t0].[Id] AS [Id], CONVERT(NVarChar,(
+    SELECT [t2].[PhotoId]
+    FROM (
+        SELECT TOP (1) [t1].[PhotoId]
+        FROM [dbo].[Photos] AS [t1]
+        WHERE [t1].[Item_Id] = ([t0].[Id])
+        ) AS [t2]
+    )) AS [PhotoId]
+FROM [dbo].[Items] AS [t0]
+ORDER BY [t0].[Id] DESC
+
+  </code>
+</pre>
   <script src="js/prism.js"></script>
   <script type="text/javascript">
     Prism.plugins.NormalizeWhitespace.setDefaults(
