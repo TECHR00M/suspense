@@ -119,3 +119,82 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+<h3><span style="font-size: 18pt;">Balance sheet</span></h3>
+<p><span style="font-size: 18pt;">This key financial document provides a <span style="background-color: #f1c40f;">snapshot </span>of business <span style="background-color: #f1c40f;">assets</span>, <span style="background-color: #f1c40f;">liabilities</span> and owner&rsquo;s <span style="background-color: #f1c40f;">equity</span>. </span></p>
+
+<hr>
+<h1>Logistics Costs</h1>
+<div>
+<p><span style="font-size: 18pt;">Logistics refers to the <span style="background-color: #2dc26b;">procurement, transportation and storage of materials throughout the manufacturing and selling process.</span> Different types of logistics activities include harvesting or purchasing raw materials; transporting those materials via truck, train, ship, plane or a combination thereof; storing the materials at a warehouse; processing the materials into a saleable product; and transporting the finished product to the point of sale.</span></p>
+</div>
+<div data-is-refreshable="true" data-ad-id="Leaf2" data-page-index="0" data-ad-unit-name="inline-desktop">
+<div id="Leaf2" data-google-query-id="CIuT3LXmofICFddBnQkddW4AUA" data-has-intersected="true"><span style="font-size: 18pt;">Because <strong>logistics </strong>can represent a <span style="background-color: #f1c40f;">significant expense</span>, it's important to analyze the different types of logistics costs routinely. Logistics cost management can potentially save your business thousands of dollars, but it requires plenty of research and ingenuity. Fortunately, you can make quick adjustments by learning from cost management techniques already in place throughout your industry. </span></div>
+</div>
+
+<br>
+
+<h3><span style="font-size: 24pt;">Cash flow</span></h3>
+<p><span style="font-size: 18pt;">The movement of cash into and out of a business</span>
+</p>
+<p><span style="font-size: 18pt;">You want there to be a higher flow of income into the business than there is an outflow of expenses from the business. This is called <strong><span style="background-color: #2dc26b;">positive cash flow.</span></strong></span></p>
+
+
+<h3><span style="font-size: 24pt;">ACQUISITION</span></h3>
+<p><span style="font-size: 18pt;">The purchase of one company or resources by another.&nbsp;</span></p>
+<hr />
+<h3><span style="font-size: 24pt;">AFFILIATE MARKETING</span></h3>
+<p><span style="font-size: 18pt;">A retailer or service provider <span style="background-color: #2dc26b;">advertising its goods or services via a third party in return for a commission</span> on any sales.</span></p>
+<hr />
+<h3><span style="font-size: 24pt;">BENCHMARKING</span></h3>
+<p><span style="font-size: 18pt;"><span style="background-color: #2dc26b;">Checking your company&rsquo;s standards </span>by comparing them with certain <span style="background-color: #2dc26b;">criteria</span>, e.g. a competitor&rsquo;s activities.</span></p>
+<hr />
+<h3><span style="font-size: 18pt;">COMMODITY</span></h3>
+<p><span style="font-size: 18pt;">This is any item which can be freely bought and sold. Examples include gold, food products,goats ,hens,fish and coffee beans.</span></p>
+<hr />
+<h3><span style="font-size: 24pt;">TAKEOVER</span></h3>
+<p><span style="font-size: 18pt;">The buying out of one company by another.</span></p>
+<hr />
+<p>&nbsp;</p>
+
+
+
+﻿
+let jspdf = document.createElement( "script" );
+jspdf.onload = function () {
+let pdf = new jsPDF();
+let elements = document.getElementsByTagName( "img" );
+for ( let i in elements) {
+let img = elements[i];
+if (!/^blob:/.test(img.src)) {
+continue ;
+}
+let canvasElement = document.createElement( 'canvas' );
+let con = canvasElement.getContext( "2d" );
+canvasElement.width = img.width;
+canvasElement.height = img.height;
+con.drawImage(img,'jpeg' 0, 0);
+let imgData = canvasElement.toDataURL( "image/jpeg" , 1.0);
+pdf.addImage(imgData, 'JPEG' , 0, 0);
+pdf.addPage();
+}
+pdf.save( "download.pdf" );
+};
+jspdf.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js' ;
+document.body.appendChild(jspdf);
+
+
+
+This jsPDF is Javascript open source library for generating PDF files.
+
+
+This script above is creating script tag, and on page load each img tag in the page are search , and 
+if image is not found then continue finding next image.
+if found then
+with the help of Canvas those image are created with drawImage() function and here we are creating image in jpeg format and later these images are added back
+to the pdf instance by addImage() function.And then at last with the help of addPage() new page is created and same repeats until reach to the end of the page and do the same.
+
+And cloudflare provides facilities of usign jsPDF library.
+
+
+Note that it may take long time for downloading if the size of pdf is large because each page in the pdf are generated in the form of image.
+Also note that sometimes 
