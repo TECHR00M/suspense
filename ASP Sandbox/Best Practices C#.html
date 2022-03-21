@@ -1,0 +1,1340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="css/dracula.css">
+    <link rel="stylesheet" href="css/dracula-prism.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+    <style>
+        kbd {
+            background: black
+        }
+    </style>
+</head>
+<br>
+<h2>C# Best practices</h2>
+
+<ul>
+    <li><strong><span style="font-size: 18pt;">Do not use the same name used .NET Framework.</span></strong></li>
+    <li><strong><span style="font-size: 18pt;">Never use a name that begins with a numeric character.</span></strong></li>
+    <li><strong><span style="font-size: 18pt;">Always prefer meaningful names for your class, property, method, etc.</span></strong></li>
+    <li><strong><span style="font-size: 18pt;">Class, Method,Namespaces names should always be in Pascal Case:</span></strong></li>
+  <pre data-keep-tags="kbd, em">
+      <code class="language-csharp">
+        public class <kbd>Employee</kbd>
+        {
+            public Employee <kbd>GetDetails</kbd>()
+            {
+                //...
+            }
+            public double <kbd>GetBonus</kbd>()
+            {
+                //...
+            }
+        }
+      </code>
+  </pre>>
+    <li><strong><span style="font-size: 18pt;">Method argument and Local variables should always be in Camel Case</span></strong></li>
+    <pre data-keep-tags="kbd, em">
+        <code class="language-csharp">
+            public class Employee
+            {
+                public void PrintDetails(int <kbd>employeeId</kbd>, String <kbd>firstName</kbd>)
+                {
+                    int <kbd>totalSalary</kbd> = 2000;
+                    // ...
+                }
+            }
+        </code>
+    </pre>
+
+    <li><strong><span style="font-size: 18pt;">Avoid the use of underscore while naming identifiers</span></strong></li>
+    <pre data-keep-tags="kbd, em">
+        <code class="language-csharp">
+           //correct
+           public DateTime fromDate;
+
+           //Avoid
+           public DateTime from_Date;
+        </code>
+    </pre>
+    <li><strong><span style="font-size: 18pt;">Avoid the use of system data types and prefer using Predefined data types</span></strong></li>
+    <pre data-keep-tags="kbd, em">
+        <code class="language-csharp">
+            // Correct
+            int employeeId;
+            string employeeName;
+            bool isActive;
+             
+            
+            // Avoid
+            Int32 employeeId;
+            String employeeName;
+            Boolean isActive;
+        </code>
+    </pre>
+
+
+    <li><strong><span style="font-size: 18pt;">Always prefix an interface with letter I.</span></strong></li>
+    <pre data-keep-tags="kbd, em">
+        <code class="language-csharp">
+// Correct
+public interface IEmployee
+{
+}
+public interface IShape
+{
+}
+public interface IAnimal
+{
+}
+
+// Avoid
+public interface Employee
+{
+}
+public interface Shape
+{
+}
+public interface Animal
+{
+}
+        </code>
+    </pre>
+
+
+    <li><strong><span style="font-size: 18pt;">Constants should always be declared in UPPER CASE.</span></strong></li>
+    Because Caps Graps attention.
+    <pre>
+        <code class="language-csharp">
+// Correct
+public const int MIN_AGE = 18;
+public const int MAX_AGE = 60;
+
+// Avoid
+public const int Min_Age = 18;
+public const int Max_Age = 60;
+        </code>
+    </pre>
+    
+    </ul>
+    <p>&nbsp;</p>
+
+
+    <hr>
+    <h2>Use Singular form Noun or Noun Phrases Class Names</h2>
+    <pre>
+        <code clas="language-csharp">
+            public class Employee
+            {
+            }
+            public class BusinessLocation
+            {
+            }
+            public class DocumentCollection
+            {
+            }
+        </code>
+    </pre>
+    This enables you to easily determine if an object holds a single item value or collection. Imagine, if you have a List<People> vs List<Person>. It's just odd to put plural form names in a List or Collection.
+
+
+
+
+    <hr>
+<h2>Use "can","is","has" for boolean properties</h2>
+<pre>
+    <code class="language-csharp">
+        public bool IsActive {get;set;}
+        public bool CanDelete {get;set;}
+    </code>
+</pre>
+
+<h2>Filenames and directly names are PascalCase eg. MyFile.cs</h2>
+<h2>Where possible the file name should be the same as the name of the main class in the file, e.g. MyClass.cs</h2>
+    <hr>
+    <h2>Namespaces do organize them with a clearly defined structure</h2>
+    <h2>In general, prefer one core class per file.</h2>
+    <pre>
+        <code clas="language-csharp">
+// Examples
+namespace Company.Product.Module.SubModule
+namespace Product.Module.Component
+namespace Product.Layer.Module.Group
+        </code>
+    </pre>
+
+    <h2>Declare all member variables at the top of a class, with static variables at the very top.</h2>
+    <pre>
+        <code clas="language-csharp">
+// Correct
+public class Account
+{
+    public static string BankName;
+    public static decimal Reserves;
+    
+    public string Number {get; set;}
+    public DateTime DateOpened {get; set;}
+    public DateTime DateClosed {get; set;}
+    public decimal Balance {get; set;}
+    
+    // Constructor
+    public Account()
+    {
+        // ...
+    }
+}
+        </code>
+    </pre>
+<h2>Use Count Properly</h2>
+<h4>Bad vs Good</h4>
+<h4>count how many counties are there in Texas:</h4>
+<div class="row">
+    <div class="col-lg-6">
+        <h4>Bad</h4>
+        <pre class="limit-15">
+  <code class='language-csharp'>
+    var counties = dbContext.States.Single(s => s.Code == "tx").Counties.Count();
+  </code>
+  </pre>
+        The query is correct, but inefficient. States.Single(…) loads a state from the database. Next, Counties
+        loads all
+        254 counties with all of their fields in a second query. .Count() is then performed in memory on the loaded
+        Counties collection
+    </div>
+
+    <div class="col-lg-6">
+        <h4>Good</h4>
+        <pre class="limit-15">
+  <code class='language-csharp'>
+      var counties = dbContext.Counties.Count(c => c.State.Code == "tx");
+  </code>
+  </pre>
+        we only do one query, which in SQL translates to a count and a join. We return only the count from the
+        database
+    </div>
+</div>
+
+
+<h2>Strings should not be concatenated using '+' in a loop </h2>
+
+<h3>Bad</h3>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+string str = "";
+for (int i = 0; i < arrayOfStrings.Length ; ++i)
+{
+  str = str + arrayOfStrings[i];
+}
+</code>
+</pre>
+
+
+<h3>Good</h3>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+StringBuilder bld = new StringBuilder();
+for (int i = 0; i < arrayOfStrings.Length; ++i)
+{
+    bld.Append(arrayOfStrings[i]);
+}
+string str = bld.ToString();
+</code>
+</pre>
+
+
+<hr>
+<h2>Check String Null or Empty</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+if (<kbd>string.IsNullOrEmpty(s)</kbd>)
+   return "This string is null or empty.";
+else
+   return string.Format("This string is not null or empty, it equals to \"{0}\" ", s);
+    </code>
+</pre>
+<hr>
+<h2>Check Guid Null or Empty</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+
+       // String.IsNullOrWhiteSpace(String value)
+
+if (<kbd>string.IsNullOrEmpty(s)</kbd>)
+   return "This string is null or empty.";
+else
+   return string.Format("This string is not null or empty, it equals to \"{0}\" ", s);
+    </code>
+</pre>
+<hr>
+<hr>
+<h2>Convert string to GUID</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+var stringBaseGuid ="0000-435-34534-2234sdfs";
+var guidRoleId = <kbd>new Guid(</kbd>stringBaseGuid)
+    </code>
+</pre
+<hr>
+
+
+<h2>Creak Guid Empty or Not</h2>
+<pre>
+    <code class="language-csharp">
+        if(inputGuid == Guid.Empty){
+
+        }
+    </code>
+</pre>
+<h2>Create Empty Guid and Random GUID </h2>
+<pre>
+    <code class="language-csharp">
+        var blankGuid = new Guid();   // Blank Guid :  00000000-0000-0000-0000-000000000000
+        var randomGuid = Guid.NewGuid();  //Any Random GUid :  e7aa345f-548e-48c2-9f5a-39424c51975
+    </code>
+</pre>
+<h2>Debug vs Release Mode</h2>
+<pre>
+    <code class="language-csharp">
+In release mode, some optimizations are included:
+
+1. unused variables do not get compiled at all
+2. some loop variables are taken out of the loop by the compiler if they are proven to be invariants
+3. code written under #debug directive is not included, etc.
+The rest is up to the JIT.
+    </code>
+</pre>
+
+
+
+<hr>
+<h2>What is pdb file ?</h2>
+<pre>
+    <code class="language-csharp">
+        pdb is a program database file and it is created on compile. This file holds debugging and project state information
+        If you donot include this file during publish then no problem.
+        If you included in debug releases, it will allows you to trace exceptions to specific line in your code.If you donot exclude it from release then also no problem.
+    </code>
+</pre>
+
+<hr>
+<h2>Prevent Double Form Submit</h2>
+
+<hr>
+
+
+
+
+<hr>
+<h2>Use Generic as possible</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-html">
+        public class ListViewModel&lt;T>
+        {
+            public T Id { get; set; }
+            public string Text { get; set; }
+    
+        }
+
+        //Expecting int in T
+        ListViewModel<kbd>&lt;int></kbd> result = employee.ToList(); // Return employee with int Id and string Text
+
+        //Expecting Guid in T
+        ListViewModel<kbd>&lt;Guid></kbd> result = employee.ToList();  // Return employee with Guid Id and string Text
+
+        //Expecting string in T
+        ListViewModel<kbd>&lt;string></kbd> result = employee.ToList(); // Return employee with string Id and string Text
+    </code>
+</pre>
+<hr>
+<h2>Use Inheritance as Possbile</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-html">
+        public class ListViewModel
+        {
+            public int Id { get; set; }
+            public string Text { get; set; }
+    
+        }
+
+        public class EmployeeListViewModel<kbd>:</kbd>listViewModel
+        {
+            public string Designation {get;set;}
+            public string Title {get;set;}
+        }
+
+    </code>
+</pre>
+
+<h2>Use Inheritance and Generic if Possible</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-html">
+        public class ListViewModel&lt;T>
+        {
+            public &lt;T> Id { get; set; }
+            public string Text { get; set; }
+    
+        }
+
+        public class EmployeeListViewModel<kbd>:</kbd>listViewModel&lt;T>
+        {
+            public string Designation {get;set;}
+            public string Title {get;set;}
+        }
+
+        //Expect int in T
+        ListViewModel<kbd>&lt;int></kbd> result = employee.ToList();    //Here Id will type Int passed via generic
+
+    </code>
+</pre>
+<hr>
+<h2>Use Tuple For Returning Multiple Value from Function</h2>
+<pre data-keep-tags="kbd, em>
+    <code class="language-csharp">
+        public Tuple&lt;<kbd>int, string, string</kbd>> GetEmployee()
+        {
+            int employeeId = 1001;
+            string firstName = "Rudy";
+            string lastName = "Koertson";
+ 
+            //Create a tuple and return
+            return <kbd>Tuple.Create(employeeId, firstName, lastName);</kbd>  
+            //returning 3 value from function
+        }
+    </code>
+</pre>
+<hr>
+<h2>Avoid creating class just to return two simple result sets. like below.</h2>
+Tuples replaces the need to create a new class whose sole purpose is to carry around data.
+<div class="row">
+    <div class="col-lg-6">
+<pre data-keep-tags="kbd, em>
+    <code class="language-csharp">
+public Person GetName()
+{
+    var person = new Person
+    {
+        FirstName = "Vincent",
+        LastName = "Durano"
+    };
+    
+    return person;
+}
+    </code>
+</pre>
+    </div>
+
+<div class="col-lg-6">
+    //This is Tuple
+<pre>
+    <code class="language-csharp">
+public (string FirstName, string LastName) GetName()
+{
+    return ("Vincent", "Durano");
+}
+    </code>
+</pre>
+    </div>
+</div>
+
+<h2>Create Extension Method if possible for repeadly used work</h2>
+<div class="row">
+    <div class="col-lg-6">
+<pre data-keep-tags="kbd, em>
+    <code class="language-csharp">
+        //Bad
+        string dateString = "40/1001/2021";
+        var isDateValid = DateTime.TryParse(dateString, our var date);
+    </code>
+</pre>
+    </div>
+
+<div class="col-lg-6">
+    public <kbd>static</kbd> class DateExtensions
+    {
+         public <kbd>static</kbd> DateTime ToDateTime(<kbd>this</kbd> string value)
+             => DateTime.TryParse(value, out var result) ? result : default;
+    }
+
+    var date = "40/1001/2021".ToDateTime();
+    </div>
+</div>
+<h2>No Need for Temporary Collections, Yield Might Help </h2>
+<div class="row">
+    <div class="col-lg-6">
+        Normally when we need to fetch the items from a collection we might create a temporary list to hold the retrieved items and return. Following is the C# code using the temporary list.
+        <pre>
+            <code class="language-csharp">
+                public List&lt;int> GetValuesGreaterThan100(List&lt;int> masterCollection)
+                    {
+                        List&lt;int> tempResult = new List&lt;int>();
+             
+                        foreach (var value in masterCollection)
+                        {
+                            if (value > 100)
+                                tempResult.Add(value);
+                        }
+                        return tempResult;
+                    }
+            </code>
+        </pre>
+
+    </div>
+
+    <div class="col-lg-6">
+        To avoid the usage of this temporary collection you could choose to use the yield. It will yield the result as and when the result set is enumerated. Below is the code using the yield keyword.
+        <pre>
+            <code class="language-csharp">
+                public IEnumerable&lt;int> GetValuesGreaterThan100(List&lt;int> masterCollection)
+                    {
+                        foreach (var value in masterCollection)
+                        {
+                            if (value > 100)
+                                yield return value;
+                        }
+                    }
+            </code>
+        </pre>
+
+    </div>
+
+
+</div>
+<hr>
+<h2>Telling the World that you are Retiring a Method Soon</h2>
+In case you own a re-distributable component and you are planning to deprecate a method soon, then you can decorate the method with the obsolete attribute to communicate it to the clients. Here is the sample C# code.
+<pre>
+    <code class="language-csharp">
+[Obsolete("This method will be deprecated soon. You could use XYZ alternatively.")]
+public void MyComponentLegacyMethod()
+{
+    //Here is the implementation
+}
+    </code>
+</pre>
+The client applications will get a warning with the given message upon compilation. Incase if you want to fail the client build if they are using the deprecated method then pass the extra Boolean parameter as True.
+
+<pre>
+    <code class="language-csharp">
+[Obsolete("This method is deprecated. You could use XYZ alternatively.", true)]
+public void MyComponentLegacyMethod()
+{
+    //Here is the implementation
+}
+    </code>
+</pre>
+
+<hr>
+<h2>Create Separate Application Constant Field by Creating Class or Enum</h2>
+
+<pre>
+    <code class="language-csharp">
+        public class ApplicationConstants
+    {
+        
+        public const string SuperAdminRoleId = "e218e9e0-d51d-45b4-9380-77f43ac50f0d";
+        public const string AreaAdministratorRoleId = "25d05201-85f6-4d2b-8950-8601b1598ebb";
+        public const string AssistantAreaAdministratorRoleId = "1ea2401a-2318-4f58-ac5c-704ddaa32bf8";
+        public const string BranchOICRoleId = "70f3c3d8-0454-4d24-a264-57e5a80f5f4b";
+        public const string BranchROICRoleId = "CD3BCC36-F919-4AEF-9A5E-CBDC202A2BB3";
+        public const string BranchUserRoleId = "1ae28fce-0630-4a31-be07-087c9856575a";
+        public const string ReliefStaffRoleId = "adcbb593-13a6-4ebe-9777-ad87bb47fce3";
+
+    }
+
+    //Then call it like this ;
+
+    var userWithSuperAdminRole = users.Where(x=>x.RoleId == ApplicationConstants.SuperAdminRoleId);
+    </code>
+</pre>
+
+<h2>Create EnumHelper ie. Alternative to Above</h2>
+
+<pre>
+    <code class="language-csharp">
+    public static class EnumRoleHelper
+    {
+       public  enum Roles
+        {
+            Admin = 1,
+            EDF = 3,
+            MnE = 4,
+            HCC = 5,
+            CICC = 6,
+            PICC = 7,
+            GALSOfficer = 8,
+            MRC = 9, 
+            MRCMICCaseHandler = 10
+        }
+    }
+
+    using static RER_Project.Core.Helpers.EnumRoleHelper;
+
+    return (int)Roles.MRC  // output: 9
+
+    return Enum.GetName(typeof(EnumRoleHelper.Roles), 3);  // output as : EDF
+    </code>
+</pre>
+
+<h2>Use Single Name for Enum if possible</h2>
+Because it is natural to read.
+<pre>
+    <code class="language-csharp">
+        public enum Color{
+            Red,
+            Greeen,
+            Blue
+        }
+    </code>
+</pre>
+<hr>
+
+
+<h2>Donot suffic enum names with Enum</h2>
+
+<pre>
+    <code class="language-csharp">
+        // Don't
+        public enum CoinEnum
+        {
+            Penny,
+            Nickel,
+            Dime,
+            Quarter,
+            Dollar
+        }
+         
+        // Correct
+        public enum Coin
+        {
+            Penny,
+            Nickel,
+            Dime,
+            Quarter,
+            Dollar
+    </code>
+</pre>
+<h2>Enum as List </h2>
+
+<pre data-keep-tags="kbd, em">
+    <code class="language-html">
+
+  // Setup
+
+    public static class EnumModel&lt;<kbd>T</kbd>>
+    {
+        public static IEnumerable&lt;EnumViewModel> List()
+        {
+            var names = GetDescriptions(typeof(T));
+            var values = Enum.GetValues(typeof(T)).Cast&lt;int>();
+
+            return names.Zip(values, (name, value) => new EnumViewModel() { Text = name, Id = value }).ToList();
+        }
+        private static IEnumerable&lt;string> GetDescriptions(Type type)
+        {
+            var names = Enum.GetNames(type);
+            return (from name in names let field = type.GetField(name) let fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true) select fds.Any() ? ((DescriptionAttribute)fds[0]).Description : name).ToList();
+        }
+    }
+
+
+    public class EnumViewModel
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+    }
+
+    //Uses:
+
+    public enum TransactionType
+    {
+        [Description("Void and Refund")]
+        VoidRefund = 1,
+        [Description("Void and Redone")]
+        VoidRedone = 2
+
+    }
+
+    [Route("TransactionType")]
+    [HttpGet]
+    public IHttpActionResult ListTransactionType()
+    {
+        return Ok(EnumModel&lt;<kbd>TransactionType</kbd>>.List());
+
+        //Output:
+        [
+            {Id =1 , Text ="Void and Refund"},
+            {Id =2 , Text ="Void and Redone"},
+        ]
+        //This can be used in Dropdown 
+    }
+    </code>
+</pre>
+
+<h2>Use String.Empty instead of ""</h2>
+<pre>
+    <code class="language-csharp">
+//Good: 
+if (firstName == String.Empty) {}  
+
+
+//Bad: 
+if (firstName == “”) {}  
+    </code>
+</pre>
+<h2>Use enums wherever required. Don’t use numbers or strings to indicate discrete values.
+
+</h2>
+<pre>
+    <code class="language-csharp">
+Good: public enum LoggerType {  
+    Event,  
+    File,  
+    Database  
+}  
+public void LogException(string message, LoggerType loggerType) {  
+    switch (loggerType) {  
+        case LoggerType.Event:  
+            // Do something break;  
+        case LoggerType.File:  
+            // Do something break;  
+        case LoggerType.Database:  
+            // Do something break;  
+        default:  
+            // Do something break;  
+    }  
+}  
+Bad: public void LogException(string message, LoggerType loggerType) {  
+    switch (loggerType) {  
+        case "Event":  
+            // Do something break;  
+        case "File":  
+            // Do something break;  
+        case "Database":  
+            // Do something break;  
+        default:  
+            // Do something break;  
+    }  
+}  
+    </code>
+</pre>
+<h2>Avoid passing many parameters to function. If you have more than 4-5 parameters use class or structure to pass it.</h2>
+<pre>
+    <code class="language-csharp">
+Good: 
+public void UpdateAddress(Address address) {}  
+
+Bad: 
+public void UpdateAddress(int addressId, string country, string state, string phoneNumber, string pinCode, string address1, string address2) {} 
+    </code>
+</pre>
+
+<h2>Use object initializers to simplify object creation.
+</h2>
+<pre>
+    <code class="language-csharp">
+        Good: var employee = new Employee {  
+            FirstName = “ABC”, LastName = “PQR”, Manager = “XYZ”, Salary = 12346.25  
+        };  
+
+
+        Bad: 
+        var employee = new Employee();  
+        employee.FirstName = “ABC”;  
+        employee.LastName = “PQR”;  
+        employee.Manager = “XYZ”;  
+        employee.Salary = 12346.25;
+    </code>
+</pre>
+<hr>
+<h2>Throw Own Exception and Neglect Inner Exception</h2>
+
+<pre data-keep-tags="kbd, em">
+    <code class="language-html">
+        if (serviceRequestModel?.Model.UserName == null)
+        throw new <kbd>ArgumentNullException</kbd>($"UserName is Required.", <kbd>innerException: null</kbd>);
+    </code>
+</pre>
+
+
+<hr>
+<h2>If Switch Case Shared Same Code</h2>
+<pre>
+    <code class="language-csharp">
+Switch (/*...*/)
+{  
+   Case 0: // shares the exact same code as case 1  
+   Case 1:  
+   // do something  
+   Goto case 2;  
+   Case 2:  
+   // do something else  
+   Goto default;  
+   default:  
+   // do something entirely different  
+   break;  
+}  
+    </code>
+</pre>
+<hr>
+
+<h2>Try avoid using if statement for null Check instead use null conditional (?.) </h2>
+<div class="row">
+<div class="col-lg-6">
+    <pre>
+        <code class="language-csharp">
+if (something != null)
+{
+    if (other != null)
+    {
+        return whatever;
+    }
+}
+        </code>
+    </pre>
+</div>
+<div class="col-lg-6">
+    <pre>
+        <code class="language-csharp">
+            return something?.other?.whatever;
+        </code>
+    </pre>
+</div>
+</div>
+<h2>Try to avoid complex if-else statements for null checks like in the following:
+
+</h2>
+<div class="row">
+<div class="col-lg-6">
+    <pre>
+        <code class="language-csharp">
+            if (something != null)
+            {
+                if (other != null)
+                {
+                    return whatever;
+                }
+                else 
+                {
+                    return string.empty;
+                }
+            }
+            else
+            {
+                return string.empty;
+            }
+        </code>
+    </pre>
+</div>
+<div class="col-lg-6">
+    <pre>
+        <code class="language-csharp">
+            return something?.other?.whatever ?? string.empty;
+        </code>
+    </pre>
+</div>
+</div>
+<h2>Try to avoid using the equality operator (==) or HasValue for nullable variable check like in the following:
+
+</h2>
+<div class="row">
+<div class="col-lg-6">
+    <pre>
+        <code class="language-csharp">
+            int? number = null;
+
+            if (number == null)
+            {
+                //do something
+            }
+            
+            if (!number.HasValue)
+            {
+                //do something
+            }
+        </code>
+    </pre>
+</div>
+<div class="col-lg-6">
+    <pre>
+        <code class="language-csharp">
+
+//Better           
+int? number = null;
+
+if (number is null)
+{
+    //do something
+}
+        </code>
+    </pre>
+</div>
+</div>
+<hr>
+<h2>Try to avoid using the following code when returning a default value when an object is null:</h2>
+<pre>
+    <code class="language-csharp">
+        int? number = null;
+        var n = number.HasValue ? number : 0;
+
+        //Do use null coalescing (??) operator as well:
+        var n = number ?? 0;
+
+
+        //or alternatively, you could do:
+        var n = number.GetValueOrDefault();
+    </code>
+</pre>
+
+
+
+<h2> Default Value for Null using null coalescing operator</h2>
+<pre>
+    <code class="language-csharp">
+
+        //some_value ?? default_value
+
+        string name = null;
+  
+        string message = name ?? "Name is a null.";
+        Console.WriteLine(message);
+    </code>
+</pre>
+
+<hr>
+<h2>Concat String Best Way</h2>
+Just a single line of code and the compiler will automatically convert this to the string.Format()
+<pre>
+    <code class="language-csharp">
+        int n1 = 20;
+        int n2 = 30;
+
+        //Old Way :
+        string msg = String.Format("Number1: {0}, Number2: {1}", n1, n2);
+
+        //New Way
+        string msg = $"Number1: {n1}, Number2: {n2}";
+        Console.WriteLine(msg);
+
+        //Output : Number1: 20 , Number2: 30
+    </code>
+</pre>
+<hr>
+<h2>For Getter only property</h2>
+Note that these properties are constant, and you cannot change them once they are set. They were set in the constructors,
+<div class="row">
+    <div class="col-lg-6">
+        <pre>
+            <code class="language-csharp">
+                public string Name { get; }
+
+
+
+                public string Name { get; } = "Afzaal Ahmad Zeeshan";
+            </code>
+        </pre>
+    </div>
+
+    <div class="col-lg-6">
+        <pre>
+            <code class="language-csharp">
+
+                //Alternative
+                public string Name => "Afzaal Ahmad Zeeshan";
+            </code>
+        </pre>
+    </div>
+</div>
+
+<hr>
+<h2>Two Type same</h2>
+<pre>
+    <code class="language-csharp">
+//Old Ways
+private string example;
+public string Example 
+{
+    get { return example; }
+    set { example = value; }
+}
+
+
+
+//New Ways
+public string Example { get; set; }
+
+
+
+
+    </code>
+</pre>
+
+<div class="row">
+    <div class="col-lg-6">
+
+public class MyClass
+{
+    public int MyPublicVariable = 0;
+
+    public int MyPublicProperty
+    {
+        get;
+        set;
+    }
+}
+
+
+MyClass myClass = new MyClass();
+
+myClass.MyPublicVariable = 2;
+
+myClass.MyPublicProperty = 2;
+    </div>
+
+    <div class="col-lg-6">
+public class MyClass
+{
+    public int MyPublicVariable = 0;
+
+    private int MyPublicProperty = 0;
+
+    public int get_MyPublicProperty()
+    {
+        return MyPublicProperty;
+    }
+
+    public void set_MyPublicProperty( int value )
+    {
+        MyPublicProperty = value;
+    }
+}
+
+//From OUtside
+MyClass myClass = new MyClass();
+
+myClass.MyPublicVariable = 2;
+
+myClass.set_MyPublicProperty( 2 );
+    </div>
+</div>
+
+<hr>
+<h2>Use of Ternary</h2>
+<pre>
+    <code class="language-csharp">
+if (x == 1)
+{
+   x = 2;
+}
+else
+{
+   x = 3;
+}
+
+//Ternary
+x = (x == 1) ? 2:3
+    </code>
+</pre>
+<hr>
+<h2>Comparing String ignoreing case</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+<pre>
+    <code class="language-csharp">
+        if( myString.ToUpper() == theirString.ToUpper() ){ ... }
+    </code>
+</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <pre>
+    <code class="language-csharp">
+        if( myString.Equals( theirString, StringComparison.OrdinalIgnoreCase ) ){ ... }
+    </code>
+</pre>
+    </div>
+</div>
+
+
+
+
+<hr>
+<h2>Comparing String with null safe</h2>
+<pre>
+    <code class="language-csharp">
+        var isEqual = String.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+    </code>
+</pre>
+
+<h2>Large Function is Bad</h2>
+If methods are too long, sometimes it is difficult to handle them.It is always better to use a number of small methods based upon their functionality instaad of putting them in a single 
+one.
+
+<h2>Properly Utlize try/catch/finally blocks</h2>
+Yes, properly utlize try/catch/finally blocks.  <br>
+If you know that the code you wrote may throw some exception , use the try/catch block for that piece of code to handle the exception <br>
+If you know that , fifth line of your 10 lines code may throw exception , it is advisable to wrap that line of code only with try/catch blocks. <br>
+Unncessary surrounding lines of code with try/catch will slow down your applications.<br>
+Use it only when required. <br>
+
+<br>
+<hr>
+<h2>Best and Advance ForEach Loop</h2>
+
+<hr>
+
+<div class="row" >
+  <div class="col-lg-6">
+<pre data-keep-tags="kbd, em">
+  <code class="language-csharp" style="font-size: 12px;">
+These are view Model
+
+    public class <kbd>CICOSupervisionAreaViewModel</kbd>
+    {
+        public int Id { get; set; }
+        public Guid CICOSupervisionAreaId { get; set; }
+
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public int Weight { get; set; }
+        public decimal ActualScore { get; set; }
+        public int TotalScore { get; set; }
+        public List&lt;CICOSupervisionSubAreaViewModel> <kbd>CICOSupervisionSubAreas</kbd> { get; set; }
+        public List&lt;CICOComplianceAttachmentViewModel> <kbd>Documents</kbd> { get; set; }
+    }
+
+
+    public class <kbd>CICOSupervisionSubAreaViewModel</kbd>
+    {
+        public int Id { get; set; }
+        public Guid CICOSupervisionSubAreaId { get; set; }
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public int CICOSupervisionAreaId { get; set; }
+        public List&lt;CICOAssessmentDetailViewModel> <kbd>CICOAssessmentDetails</kbd> { get; set; }
+    }
+
+    public class <kbd>AssessmentViewModel</kbd>
+    {
+      public Guid Id { get; set; }
+      public string Name { get; set; }
+      public string Address { get; set; }
+      public string LaunchDate { get; set; }
+      public string TypeOfBusiness { get; set; }
+      public string LastAssessedBy { get; set; }
+      public string LastVisitedDate { get; set; }
+      [StringLength(500)]
+      public string SiteUrl { get; set; }
+      public List&lt;CICOSupervisionAreaViewModel> <kbd>CICOMerchantAssessmentSupervisionAreas</kbd> { get; set; } 
+      public List&lt;CICOAssessmentSuperviseByViewModel> <kbd>CICOAssessmentSuperviseBys</kbd> { get; set; }
+      public List&lt;CICOAssessmentPersonMetViewModel> <kbsd>CICOAssessmentPersonMets</kbsd> { get; set; }
+
+      public List&lt;string> <kbd>PersonMets</kbd> { get; set; }
+      public List&lt;string> <kbd>SuperviseBys</kbd> { get; set; }
+      public List&lt;CICOComplianceAttachmentViewModel> <kbd>SuperviseBys</kbd>> { get; set; }
+
+  }
+
+  </code>
+</pre>
+
+  </div>
+
+
+  <div class="col-lg-6">
+//These are Database Table
+
+    <pre data-keep-tags="kbd, em">
+  <code class="language-csharp" style="font-size: 12px;">
+    
+    public class CICOSupervisionArea
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+        [StringLength(500)]
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public int Weight { get; set; }
+        public virtual List&lt;CICOSupervisionSubArea> CICOSupervisionSubAreas { get; set; }
+    }
+
+    public class CICOSupervisionSubArea
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+        [StringLength(500)]
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public int CICOSupervisionAreaId { get; set; }
+        [ForeignKey("CICOSupervisionAreaId")]
+        public virtual CICOSupervisionArea CICOSupervisionArea { get; set; }
+
+        public virtual ICollection&lt;CICOAssessmentDetail> CICOAssessmentDetails { get; set; }
+    }
+
+    public class CICOAssessmentDetail
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+        [StringLength(500)]
+        public string Name { get; set; }
+        public int Order { get; set; }
+        public int YesValue { get; set; }
+        public int NoValue { get; set; }
+        public int CICOSupervisionSubAreaId { get; set; }
+        [ForeignKey("CICOSupervisionSubAreaId")]
+        public virtual CICOSupervisionSubArea CICOSupervisionSubArea { get; set; }
+    }
+  </code>
+</pre>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <pre data-keep-tags="kbd, em">
+      <code class="language-csharp" style="font-size: 12px;">
+var response = new AssessmentViewModel();
+
+var cicoSupervisionAreaRepo = _genericUnitOfWork.GetRepository&lt;CICOSupervisionArea, int>();
+
+
+response.CICOMerchantAssessmentSupervisionAreas = cicoSupervisionAreaRepo.GetAll().ToList().Select(<kbd>m </kbd>=> new <kbd>CICOSupervisionAreaViewModel</kbd>()
+                                                  {
+                                                      Id = m.Id,
+                                                      Name = m.Name,
+                                                      Weight = m.Weight,
+                                                      Order = m.Order,
+                                                      TotalScore = m.CICOSupervisionSubAreas.SelectMany(n => n.CICOAssessmentDetails).Sum(c => c.YesValue),
+                                                      Documents = new System.Collections.Generic.List&lt;CICOComplianceAttachmentViewModel>(),
+                                                      <kbd>CICOSupervisionSubAreas</kbd> = m.CICOSupervisionSubAreas.Select(<kbd>s</kbd> => new CICOSupervisionSubAreaViewModel()
+                                                      {
+                                                          CICOSupervisionAreaId = <kbd>s</kbd>.CICOSupervisionAreaId,
+                                                          Order = s.Order,
+                                                          Name = s.Name,
+                                                          Id = s.Id,
+                                                          <kbd>CICOAssessmentDetails</kbd> = s.CICOAssessmentDetails.Select(<kbd>z </kbd>=> new CICOAssessmentDetailViewModel()
+                                                          {
+                                                              AssessmentScore = 0,
+                                                              Id = z.Id,
+                                                              Name = z.Name,
+                                                              Order = z.Order,
+                                                              NoValue = z.NoValue,
+                                                              YesValue = z.YesValue,
+                                                              CICOSupervisionSubAreaId = z.CICOSupervisionSubAreaId,
+                                                              Documents = new System.Collections.Generic.List&lt;CICOComplianceAttachmentViewModel>()
+                                                          }).ToList()
+                                                      }).ToList()
+
+                                                  }).ToList();
+                                              }
+
+
+//Now response is displayed on WEb
+
+      </code>
+    </pre>
+  </div>
+</div>
+
+<hr>
+
+<script src="js/prism.js"></script>
+<script type="text/javascript">
+    Prism.plugins.NormalizeWhitespace.setDefaults(
+        {
+            'remove-trailing': true,
+            'remove-indent': true,
+            'left-trim': true,
+            'right-trim': true,
+            // 'break-lines': 10,
+            // 'indent': 2,
+            // 'remove-initial-line-feed': false,
+            // 'tabs-to-spaces': 4,
+            // 'spaces-to-tabs': 4
+        });
+
+    (function () {
+        if (!self.Prism) {
+            return;
+        }
+
+        var div = document.createElement('div');
+
+        Prism.hooks.add('before-highlight', function (env) {
+            var elt = env.element;
+            if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                elt = elt.parentNode;
+            }
+            var tags = elt.getAttribute('data-keep-tags');
+            if (!tags) {
+                return;
+            }
+            var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+            env.keepTags = true;
+            env.keepTagsPlaceholder = placeholder;
+
+            tags = tags.split(/\s*,\s*/).join('|');
+            var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+            env.keepTagsRegex = tags_regex;
+
+            env.tokenStack = [];
+            env.backupCode = env.code;
+
+            var code = env.element.innerHTML;
+            code = code.replace(tags_regex, function (match) {
+                env.tokenStack.push(match);
+                return placeholder.replace('{n}', env.tokenStack.length);
+            });
+            env.element.innerHTML = code;
+            code = env.element.textContent;
+            code = code.replace(/^(?:\r?\n|\r)/, '');
+
+            env.code = code;
+        });
+
+        Prism.hooks.add('after-highlight', function (env) {
+            if (!env.keepTags) {
+                return;
+            }
+            for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                    div.innerHTML = inside;
+                    inside = div.textContent;
+                    return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                });
+
+                env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                env.element.innerHTML = env.highlightedCode;
+            }
+        });
+
+    }());
+
+    Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+        v.classList.add("language-sql");
+    });
+    Prism.highlightAll();
+
+</script>
+
+</body>
+
+</html>

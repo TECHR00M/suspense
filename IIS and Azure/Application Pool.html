@@ -3,6 +3,9 @@
 <head>
 </head>
 <body>
+
+<h2>Powerful IIS Video :<a href=" https://www.youtube.com/watch?v=1VdxPWwtISA">Click Here</a></h2>
+
 <h2><strong>All About Application Pool</strong></h2>
 <h3>Application pools allow you to <span style="color: #e03e2d;"><strong>isolate your applications from one another</strong>, even if they are running on the same server.</span></h3>
 <h3>Application Pools use the Server&nbsp;Process called <strong><span style="color: #e03e2d;">w3wp.exe.</span></strong></h3>
@@ -46,5 +49,37 @@
 <p><span style="color: #000000;"><strong>Look multiple application has separate Application Pool.</strong></span></p>
 <hr />
 <p>&nbsp;</p>
+
+
+<ul>
+    <li><span style="font-size: 18pt;">There will be many application pool in IIS.You can also create application pool.</span></li>
+    <li><span style="font-size: 18pt;">Each pool can hold multiple applications.</span></li>
+    <li><span style="font-size: 18pt;">Each application pool by default has 1 worker process. So, if many request comes then there are queue and are not rejected.</span></li>
+    <li><span style="font-size: 18pt;">If you increase the count of worker process more than one then it is called Web Garden.</span><br /><span style="font-size: 18pt;">For this you need to take care if there is in-proc session management.</span><hr /></li>
+    </ul>
+    <p><strong><span style="font-size: 18pt;">Find Number of Worker Process Assigned to Application Pool</span></strong></p>
+    <ol>
+    <li><span style="font-size: 14pt;">Right click the application pool .</span></li>
+    <li><span style="font-size: 14pt;">S</span><span style="font-size: 14pt;">elect Advanced Settings.</span></li>
+    <li><span style="font-size: 14pt;">Find /Increase the Maximum Worker Processes Count.</span></li>
+    </ol>
+
+<hr>
+<h2>Static Variable Life Time is related to Application Pool</h2>
+
+<ul>
+    <li>
+    <p><span style="font-size: 18pt;">Static variable is application level .There lifetime exists as long as application closed.</span></p>
+    <p>&nbsp;</p>
+    </li>
+    <li>
+    <p><span style="font-size: 18pt;">Static fields are one instance per app-domain meaning all requests here the same value.</span></p>
+    </li>
+    <li>
+    <p><span style="font-size: 18pt;">By Default, if the application itself doesnot receive any request for 20 minutes,it will unload from memory.All static variables will then be lost; on the next request to the</span><br /><span style="font-size: 18pt;">app, a new app instance will get loaded.</span></p>
+    <p><strong><span style="font-size: 18pt;">Static variables are lost when IIS restarts your asp.net application when any of the below happens:</span></strong><br /><span style="font-size: 14pt;">1) Manual restart of app pool</span><br /><span style="font-size: 14pt;">2) The pool has reached some limits that is defined on the server and restart.</span><br /><span style="font-size: 14pt;">3) Restart IIS</span><br /><span style="font-size: 14pt;">4) If application remains idle for 20 minutes no request, then by default worker process working for the application also get closed.</span></p>
+    <p><span style="font-size: 14pt;">5) Reboot server.</span></p>
+    </li>
+    </ul>
 </body>
 </html>

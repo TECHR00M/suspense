@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../../CSS SandBox/Sandbox/css/bootstrap.css">
+    <link rel="stylesheet" href="../../CSS SandBox/Sandbox/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../../CSS SandBox/Sandbox/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../../CSS SandBox/Sandbox/css/dracula.css">
+    <link rel="stylesheet" href="../../CSS SandBox/Sandbox/css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+</head>
+<style>
+    kbd {
+        background: black
+    }
+</style>
+
+
+
+<body>
+    <pre data-keep-tags="kbd, em">
+        <code class="language-csharp">
+
+            </code>
+            </pre>
+
+            <p><span style="font-size: 18pt;"><strong>Creational Design Pattern</strong></span></p>
+            <ul>
+            <li><span style="font-size: 18pt;">It deals with Object Creation and Initialization.</span></li>
+            <li><span style="font-size: 18pt;">It helps to decide which objects need to be created for a given situation.</span></li>
+            </ul>
+            <p>&nbsp;</p>
+            <p><strong><span style="font-size: 18pt;">When to use Creational Design Pattern?</span></strong></p>
+            <p style="text-align: justify;"><span style="font-size: 18pt;">In real-time applications, the project is created with a lot of classes. A lot of classes mean we are dealing with a lot of objects.So, we need to create different objects(like new customer(), new product() , new Invoice() etc) .If the object creations logic based on some condition is implemented in client code, then it leads to lots of complicated logic in client code. So, object creation logic should be centralized for maintenance.</span></p>
+            <p style="text-align: justify;"><span style="font-size: 18pt;">The Creational Design pattern helps us to <strong>centralized the object creation logic</strong> and depending on the condition, it will create, initialize and return the appropriate object to the object.</span></p>
+            <hr />
+
+
+
+
+
+
+
+
+<h2>Not Using Pattern</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-csharp">
+public sealed class Singleton
+{
+    private static int counter = 0;
+
+    <kbd>public Singleton()</kbd>
+    {
+        counter++;
+        Console.WriteLine($"Counter Value: {counter.ToString()}");
+    }
+
+    public void PrintDetails(string message)
+    {
+        Console.WriteLine(message);
+    }
+}
+                </code>
+                </pre>
+        
+    </div>
+
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-csharp">
+class Program
+{
+    static void Main(string[] args)
+    {
+        Singleton fromStudent1 = new Singleton();
+        fromStudent1.PrintDetails("From Student1");
+
+        Singleton fromStudent2 = new Singleton();
+        fromStudent2.PrintDetails("From Student2");
+    }
+}
+    </code>
+    </pre>
+
+    </div>
+</div>
+<hr>
+<h2>Using Singleton Pattern</h2>
+<p style="text-align: justify;"><span style="text-decoration: underline; color: #e03e2d;"><strong><span style="font-size: 18pt;">Singleton Design Pattern</span></strong></span></p>
+<p style="text-align: justify;"><span style="font-size: 18pt;">We need to use the Singleton Design Pattern in C# <strong>when we need to ensures that only one instance of a particular class is going to be created and then provide simple global access to that instance for entire application</strong>.</span></p>
+<p style="text-align: justify;"><strong><span style="font-size: 18pt;">Advantage:</span></strong></p>
+<ul>
+<li style="text-align: justify;"><span style="font-size: 18pt;">It take care of <strong>concurrent access to the shared resource.</strong>That means if we are sharing a resource with multiple clients simultaneously , then concurrent access to that resource is well managed by the singleton design pattern.</span></li>
+<li style="text-align: justify;"><span style="font-size: 18pt;">To <strong>reduce the overhead of instantiating a heavy object </strong>again and again.</span></li>
+<li style="text-align: justify;"><span style="font-size: 18pt;">It provide single g<strong>lobal point of access</strong> to a particular instance.so it is easy to maintain.</span></li>
+</ul>
+<p style="text-align: justify;"><span style="font-size: 18pt;">Guidelines:</span></p>
+<ul>
+<li style="text-align: justify;"><span style="font-size: 18pt;"><strong>Constructor </strong>should be <strong>private </strong>and <strong>parameterless </strong>: Because it is not allowed the class to be instantiated from outside the class.It only instantiates from within the class.</span></li>
+<li style="text-align: justify;"><span style="font-size: 18pt;">The class should be declared as <strong>sealed </strong>which will ensure that it cannot be inherited.</span></li>
+<li style="text-align: justify;"><span style="font-size: 18pt;">You need to create a <strong>private static variable</strong> that is going to hold a reference to single created instance of the class if any.</span></li>
+<li style="text-align: justify;"><span style="font-size: 18pt;">You also need to create a <strong>public static property/method</strong> which will <strong>return the single-created instance of the singleton class.</strong></span></li>
+</ul>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-csharp">
+public sealed class Singleton
+{
+    private static int counter = 0;
+    private static Singleton instance = null;
+    <kbd>public static</kbd> Singleton GetInstance
+    {
+        get
+        {
+            // If null then only create instance
+            if (instance is null)
+                instance = new Singleton();
+            return instance;
+        }
+
+    }
+
+    <kbd>private</kbd> Singleton()
+    {
+        counter++;
+        Console.WriteLine($"Counter Value: {counter.ToString()}");
+    }
+
+    public void PrintDetails(string message)
+    {
+        Console.WriteLine(message);
+    }
+}
+                </code>
+                </pre>
+        
+    </div>
+
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-csharp">
+class Program
+{
+    static void Main(string[] args)
+    {
+        Singleton fromStudent1 = <kbd>Singleton.GetInstance</kbd>;
+        fromStudent1.PrintDetails("From Student1");
+
+        Singleton fromStudent2 = <kbd>Singleton.GetInstance;</kbd>
+        fromStudent2.PrintDetails("From Student2");
+    }
+}
+    </code>
+    </pre>
+
+    </div>
+</div>
+
+<p style="text-align: justify;"><span style="font-size: 18pt;">If any two users or any two methods accessing GetInstance variable at exactly same time then two instance will get created. So above code is not thread safe.</span></p>
+<pre data-keep-tags="kbd, em">&nbsp;</pre>
+
+
+    <script src="../../CSS SandBox/Sandbox/js/prism.js"></script>
+    <script type="text/javascript">
+        Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+
+    </script>
+</body>
+
+</html>

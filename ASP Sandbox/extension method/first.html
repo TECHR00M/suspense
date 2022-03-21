@@ -446,6 +446,31 @@ Console.WriteLine(string.Join(", ",lst));
     </div>
 </div>
 
+
+<hr>
+<h2>Check Number Exists between Two Number  , Same Works for date</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <pre>
+            <code class="language-csharp">
+                public static bool IsWithin(this int value, int minimum, int maximum)
+                {
+                    return value >= minimum && value <= maximum
+                }
+            </code>
+        </pre>
+    </div>
+    <div class="col-lg-6">
+        <pre>
+            <code class="language-csharp">
+                int val = 15;
+
+                bool foo = val.IsWithin(5,20);  // return True
+            </code>
+        </pre>
+    </div>
+</div>
+
 ====================================================================================
 <script src="../js/prism.js"></script>
 <script type="text/javascript">

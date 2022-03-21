@@ -128,10 +128,15 @@ public class EmployeeDTO
     <code class="language-csharp">
 
 var config = new MapperConfiguration(cfg =>
+
+// Note that <kbd>all properties which is on Right Side here. EmployeeDTO should be mapped</kbd>. If same lhs and rhs no need to mapp, if rhs has different 
+// name then it is compulsory to map. Otherwise gives error
 cfg.CreateMap&lt;<kbd>Employee</kbd>, <kbd>EmployeeDTO</kbd>>()
 .ForMember(dest => dest.<kbd>FullName</kbd>, act => act.MapFrom(src => src.<kbd>Name</kbd>))
-.ForMember(dest => dest.<kbd>Dept</kbd>, act => act.MapFrom(src => src.<kbd>Department</kbd>))
+.ForMember(dest => dest.<kbd>Depart</kbd>, act => act.MapFrom(src => src.<kbd>Department</kbd>))
 );
+
+
 
 //Creating the source object
 var emp = new Employee
@@ -418,6 +423,12 @@ static Mapper InitializeAutomapper()
 }
     </code>
 </pre>
+
+
+<br>
+<h2>Note:Everythings which is present in </h2>
+
+
     <script src="js/prism.js">
     </script>
     <script type="text/javascript">
