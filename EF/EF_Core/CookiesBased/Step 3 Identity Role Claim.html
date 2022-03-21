@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../../css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../../css/dracula.css">
+    <link rel="stylesheet" href="../../css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+
+<body>
+    </head>
+    <style>
+        kbd {
+            background: blue
+        }
+    </style>
+
+    <body>
+
+<h4>Identity: Who you are ?</h4>
+<h4>Role: Who you are in given Context</h4>
+<h4>Claim: A piece of Information about you</h4>
+
+<h2>Create Role View Model</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+public class RoleViewModel
+{
+    [Required]
+    public string Name { get; set; }
+}
+</code>
+</pre>
+
+<h2>Using Role</h2>
+For Role we must inject RoleManager to Constructor as shown below.
+
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+
+    public class AccountController : Controller
+    {
+        private readonly UserManager&lt;IdentityUser> _userManager;
+        private readonly IEmailSender _emailSender;
+        private readonly SignInManager&lt;IdentityUser> _signInManager;
+
+        <kbd>public RoleManager&lt;IdentityRole> _roleManager { get; }</kbd>
+
+        public AccountController(UserManager&lt;IdentityUser> userManager,SignInManager&lt;IdentityUser> signInManager,<kbd>RoleManager&lt;IdentityRole> roleManager</kbd>, IEmailSender emailSender)
+        {
+            _userManager = userManager;
+            _emailSender = emailSender;
+            _signInManager = signInManager;
+           <kbd> _roleManager = roleManager;</kbd>
+        }
+
+
+        public async Task&lt;IActionResult> CreateRole()
+        {
+            return View();
+        }
+    
+        [HttpPost]
+        public async Task&lt;IActionResult> CreateRole(RoleViewModel model)
+        {
+            if(!(await _roleManager.<kbd>RoleExistsAsync</kbd>(model.Name)))
+            {
+                var role = new IdentityRole { Name = model.Name };
+                var roleResult = await _roleManager.<kbd>CreateAsync</kbd>(role);
+                if (!roleResult.Succeeded)
+                {
+                    var errors = roleResult.Errors.Select(s=>s.Description);
+                    ModelState.AddModelError("Role", string.Join(",", errors));
+                    return View(model);
+                }
+            }
+            return RedirectToAction("Index");
+        }
+    </code>
+    </pre>
+
+<h2>CreateRole.cshtml</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+@model RoleViewModel
+@{
+    ViewData["Title"] = "Create Role";
+}
+&lt;form method="post" action="/account/createrole">
+    @Html.ValidationSummary()
+    &lt;div class="form-group col-4">
+        &lt;label for="RoleName">Role Name&lt;/label>
+        &lt;input type="text" name="Name" />
+    &lt;/div>
+    &lt;button type="submit" class="btn btn-primary">Create Role&lt;/button>
+&lt;/form>
+    </code>
+</pre>
+
+<img src="https://i.ibb.co/S6jsmFz/createrole.jpg">
+<img src="https://i.ibb.co/r7HyqPq/admin-role.jpg">
+<hr>
+
+<h2>Now Use while Register / Sign In</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+public class SignUpViewModel
+{
+    [Required]
+    [DataType(DataType.EmailAddress,ErrorMessage ="Email address is missing or invalid")]
+    public string Email { get; set; }
+    [Required]
+    [DataType(DataType.Password, ErrorMessage = "Incorrect or missing Password")]
+    public string Password { get; set; }
+
+  <kbd>public string Role { get; set; }</kbd>
+}
+</code>
+</pre>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Sign Up Model Changes Like this:</h2>
+        <pre data-keep-tags="kbd,em">
+            @model SignUpViewModel
+@{
+    ViewData["Title"] = "SignUp";
+}
+&lt;form asp-controller="Account" asp-action="SignUp" method="post">
+    @Html.ValidationSummary()
+    &lt;div class="form-group">
+        &lt;label for="Email">Email&lt;/label>
+        &lt;input type="text" asp-for="Email" class="form-control" />
+    &lt;/div>
+
+    &lt;div class="form-group">
+        &lt;label for="Password">Password&lt;/label>
+        &lt;input type="text" asp-for="Password" class="form-control" />
+    &lt;/div>
+
+   <kbd>
+       //Added this: You can call it from Db as well
+    &lt;div class="form-group">
+    &lt;select name="Role">
+        &lt;option value="Admin">Admin&lt;/option>
+        &lt;option value="SuperAdmin">SuperAdmin&lt;/option>
+        &lt;option value="Member">Member&lt;/option>
+    &lt;/select>
+&lt;/div>
+
+   </kbd>
+    &lt;button type="submit" class="btn btn-primary">SignUp!&lt;/button>
+    &lt;/form>
+
+&lt;div class="alert alert-info">
+    If you already have an account, please <a href="/SignIn">Sign In&lt;/a>
+&lt;/div>
+            <code>
+    </div>
+    <div class="col-lg-6">
+      <img src="https://i.ibb.co/qnZ72CF/admns.jpg">
+    </div>
+</div>
+
+
+<h2>Change Under SignUp Controller</h2>
+<pre data-keep-tags="kbd,em">
+<code>
+    [HttpPost]
+    public async Task&lt;IActionResult> SignUp(SignUpViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            if ((await _userManager.FindByEmailAsync(model.Email)) == null)
+            {
+                var user = new IdentityUser
+                {
+                    Email = model.Email,
+                    UserName = model.Email
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                user = await _userManager.FindByEmailAsync(user.Email);
+
+                if (result.Succeeded)
+                {
+                    //Add user To Role
+                   <kbd> await _userManager.AddToRoleAsync(user,model.Role);</kbd>
+
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                    var callbackUrl = Url.ActionLink(nameof(ConfirmEmail), "Account", new { userId = user.Id, @token = token });
+
+                    var confirmationLink = callbackUrl;
+                    await _emailSender.SendEmailAsync("poudel.diwas777@gmail.com", user.Email, "Confirm your Email", confirmationLink);
+
+                    return RedirectToAction(nameof(ConfirmEmailPage));
+                }
+                ModelState.AddModelError("SignUp", string.Join("", result.Errors.Select(x => x.Description)));
+            }
+            else
+            {
+                ModelState.AddModelError("SignUp","Already Exists...");
+            }
+        }
+        return View(model);
+    }
+</code>
+</pre>
+
+<h2>Accessing Resource after login based on Role</h2>
+<pre data-keep-tags="kbd,em">
+<code >
+    //After SignUp as Members Role user can access this resource
+    [Authorize(Roles ="Members")]
+    public IActionResult Members()
+    {
+        return View();
+    }
+
+    [Authorize(Roles = "Admin")]
+    public IActionResult Admin()
+    {
+        return View();
+    }
+</code>
+</pre>
+<script src="../../js/prism.js"></script>
+<script type="text/javascript">
+    Prism.plugins.NormalizeWhitespace.setDefaults(
+        {
+            'remove-trailing': true,
+            'remove-indent': true,
+            'left-trim': true,
+            'right-trim': true,
+            // 'break-lines': 10,
+            // 'indent': 2,
+            // 'remove-initial-line-feed': false,
+            // 'tabs-to-spaces': 4,
+            // 'spaces-to-tabs': 4
+        });
+
+
+    (function () {
+        if (!self.Prism) {
+            return;
+        }
+
+        var div = document.createElement('div');
+
+        Prism.hooks.add('before-highlight', function (env) {
+            var elt = env.element;            if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                elt = elt.parentNode;
+            }
+            var tags = elt.getAttribute('data-keep-tags');
+            if (!tags) {
+                return;
+            }
+            var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+            env.keepTags = true;
+            env.keepTagsPlaceholder = placeholder;
+
+            tags = tags.split(/\s*,\s*/).join('|');
+            var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+            env.keepTagsRegex = tags_regex;
+
+            env.tokenStack = [];
+            env.backupCode = env.code;
+
+            var code = env.element.innerHTML;
+            code = code.replace(tags_regex, function (match) {
+                env.tokenStack.push(match);
+                return placeholder.replace('{n}', env.tokenStack.length);
+            });
+            env.element.innerHTML = code;
+            code = env.element.textContent;
+            code = code.replace(/^(?:\r?\n|\r)/, '');
+
+            env.code = code;
+        });
+
+        Prism.hooks.add('after-highlight', function (env) {
+            if (!env.keepTags) {
+                return;
+            }
+            for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                    div.innerHTML = inside;
+                    inside = div.textContent;
+                    return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                });
+
+                env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                env.element.innerHTML = env.highlightedCode;
+            }
+        });
+
+    }());
+
+    Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+        v.classList.add("language-sql");
+    });
+    Prism.highlightAll();
+
+</script>
+</body>
+
+</html>

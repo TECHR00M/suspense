@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../../css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../../css/dracula.css">
+    <link rel="stylesheet" href="../../css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+
+<body>
+    </head>
+    <style>
+        kbd {
+            background: blue
+        }
+    </style>
+
+    <body>
+
+<h2>Now Lets Create AccountController.cs  ie. Controller/AccountController.cs</h2>
+
+
+
+<pre data-keep-tags="kbd, em">
+<code class="language-csharp">
+    public class AccountController : Controller
+    {
+        public async Task&lt;IActionResult> SignUp()
+        {
+            var model = new SignUpViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task&lt;IActionResult> SignUp(SignUpViewModel model)
+        {
+            return View(model);
+        }
+
+        public async Task&lt;IActionResult> SignIn()
+        {
+            return View();
+
+        }
+
+        public async Task&lt;IActionResult> AccessDenied()
+        {
+            return View();
+        }
+
+    }
+</code>
+</pre> 
+
+
+
+<hr>
+
+<h2>Now lets create SignIn ,SignOff, Access Denied</h2>
+
+If someone comes without signin then will redirect him to  Account/SignIn to signin
+If someone try to page which doesnot exists then redirect him to Account/AccessDenied
+<pre data-keep-tags="kbd, em">
+    <code>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            ...
+            services.Configure&lt;IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            });
+
+            <kbd>
+                
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.LoginPath = "/Account/SignIn";
+                    options.AccessDeniedPath = "/Account/AccessDenied";
+                });
+            </kbd>
+
+
+            services.AddControllersWithViews();
+        }
+    </code>
+</pre>
+
+<h2>Adding SignUp Functionality / Register User Functionality (Use of UserManager)</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+        public class AccountController : Controller
+        {
+            <kbd>private readonly UserManager&lt;IdentityUser> _userManager;</kbd>
+    
+            public AccountController(UserManager&lt;IdentityUser> userManager)
+            {
+                _userManager = userManager;
+            }
+    
+            public async Task&lt;IActionResult> SignUp()
+            {
+                var model = new SignUpViewModel();
+                return View(model);
+            }
+    
+            [HttpPost]
+            public async Task&lt;IActionResult> SignUp(SignUpViewModel model)
+            {
+                if (ModelState.IsValid)
+                {
+                    if((await _userManager.<kbd>FindByEmailAsync</kbd>(model.Email)) != null)
+                    {
+                        var user = new IdentityUser
+                        {
+                            Email = model.Email,
+                            UserName = model.Email
+                        };
+                        var result =await _userManager.<kbd>CreateAsync</kbd>(user,model.Password);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("SignIn");
+                        }
+    
+                        ModelState.AddModelError("SignUp", string.Join("", result.Errors.Select(x => x.Description)));
+                        return View(model);
+                    }
+                }
+    
+                return View(model);
+            }
+    
+            public async Task&lt;IActionResult> SignIn()
+            {
+                return View();
+    
+            }
+    
+            public async Task&lt;IActionResult> AccessDenied()
+            {
+                return View();
+            }
+    
+        }
+    </code>
+</pre>
+
+
+<h2>SignUp.cshtml</h2>
+<pre>
+    <code class="language-html">
+@model SignUpViewModel
+@{
+    ViewData["Title"] = "SignUp";
+}
+&lt;form  asp-controller="Account" asp-action="SignUp" method="post">
+    @Html.ValidationSummary()
+    &lt;div class="form-group">
+        &lt;label for="Email">Email&lt;/label>
+        &lt;input type="text" asp-for="Email" class="form-control" />
+    &lt;/div>
+
+    &lt;div class="form-group">
+        &lt;label for="Password">Password&lt;/label>
+        &lt;input type="text" asp-for="Password" class="form-control" />
+    &lt;/div>
+
+    &lt;button type="submit" class="btn btn-primary">SignUp!&lt;/button>
+&lt;/form>
+
+&lt;div class="alert alert-info">
+    If you already have an account, please &lt;a href="/SignIn">Sign In&lt;/a>
+&lt;/div>
+    </code>
+</pre>
+
+<h2>Now Lets Add Confirm Mail Functionality</h2>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+{
+    ...
+    "ConnectionStrings": {
+        "DefaultConnection": "Data Source=LAPTOP-6L17D8QP\\SQLEXPRESS;Database=IdentityCoreCookie;User ID=admin;Password=Admin@123"
+    },
+    <kbd>
+    "Smtp": {
+    "Host": "smtp.gmail.com",
+    "Username": "poudel.diwas777@gmail.com",
+    "Password": "clqwzadrpmuaglkh",
+    "Port": 587
+    },</kbd>
+    "AllowedHosts": "*"
+    }      
+</code>
+</pre>
+
+Note that If you havenot enable two factor authentication then you can simply use username and password.
+But if you have enabled then you have to generate App Password Key For it ,For this visits.<br>
+https://support.google.com/accounts/answer/185833?hl=en
+
+<h2>Send Email Confirmation while Signing Up</h2>
+<img src="https://i.ibb.co/XzP5YsQ/emailconfirmationflow.png">
+
+<h2>Send Mail  </h2>
+1. Create Model : SmtpOptions <br>
+2. Create Interface: IEmailSender <br>
+3. Write Logic for EmailSender Service and Email Confirmation <br>
+4. Then use in Controller by injecting Step 3 Service <br>
+
+<h4>1. Create Model : SmtpOptions.cs</h4>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+
+        namespace IdentityCore.Service
+        {
+            public class SmtpOptions
+            {
+                public string Host { get; set; }
+                public string Username { get; set; }
+                public string Password { get; set; }
+                public int Port { get; set; }
+            }
+        }
+
+    </code>
+</pre>
+
+<h4>Create Interface: IEmailSender.cs</h4>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+
+namespace IdentityCore.Service
+{
+    public interface IEmailSender
+    {
+        Task SendEmailAsync(string fromAddress, string toAddress, string subject, string message);
+    }
+}
+
+    </code>
+</pre>
+<h4>Write Logic for EmailSender Service and Email Confirmation: EmailSender.cs</h4>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+        namespace IdentityCore.Service
+{
+    public class SmtpEmailSender : IEmailSender
+    {
+        private readonly IOptions&lt;SmtpOptions> _smtpOptions;
+        public SmtpEmailSender(IOptions&lt;SmtpOptions> options)
+        {
+            this._smtpOptions = options;
+        }
+
+        public async Task <kbd>SendEmailAsync</kbd>(string fromAddress, string toAddress, string subject, string message,bool isBodyHtml = true)
+        {
+            
+            using (var mailMessage = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = message,
+                IsBodyHtml = isBodyHtml
+            })
+            using (var client = new SmtpClient(_smtpOptions.Value.Host, _smtpOptions.Value.Port)
+            {
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(_smtpOptions.Value.Username, _smtpOptions.Value.Password),
+                EnableSsl = true,
+            })
+            {
+               
+                await client.SendMailAsync(mailMessage);
+            }
+        }
+    }
+}
+    
+    </code>
+</pre>
+
+
+
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+
+ ...       
+private readonly UserManager&lt;IdentityUser> _userManager;
+private readonly IEmailSender _emailSender;
+
+public AccountController(UserManager&lt;IdentityUser> userManager,<kbd>IEmailSender emailSender</kbd>)
+{
+    _userManager = userManager;
+    _emailSender = emailSender;
+}
+
+
+[HttpPost]
+public async Task&lt;IActionResult> <kbd>SignUp</kbd>(SignUpViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        if((await _userManager.FindByEmailAsync(model.Email)) == null)
+        {
+            var user = new IdentityUser
+            {
+                Email = model.Email,
+                UserName = model.Email
+            };
+            var result =await _userManager.CreateAsync(user,model.Password);
+            user = await _userManager.FindByEmailAsync(user.Email);
+
+            <kbd>
+                var token = await _userManager.<em>GenerateEmailConfirmationTokenAsync</em>(user);
+
+                
+                if (result.Succeeded)
+                {
+                    token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                    var callbackUrl = Url.ActionLink(nameof(ConfirmEmail), "Account", new { userId = user.Id, @token = token });
+
+                    var confirmationLink = callbackUrl;
+                    await _emailSender.SendEmailAsync("poudel.diwas777@gmail.com", user.Email, "Please Register",
+                            $"&lt;hr>&lt;br> &lt;b>Dear Applicant,&lt;/b>&lt;br>Your account has been successfully created.&lt;a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here&lt;/a> to login.");
+
+
+                    return RedirectToAction(nameof(ConfirmEmailPage));
+                }
+
+            </kbd>
+            ModelState.AddModelError("SignUp", string.Join("", result.Errors.Select(x => x.Description)));
+            return View(model);
+        }
+    }
+
+    return View(model);
+}
+
+
+//Just Create this View
+[HttpGet]
+public IActionResult ConfirmEmailPage()
+{
+    return View();
+}
+
+//When Someone Click on Mail Link inside gmail
+public async Task&lt;IActionResult> ConfirmEmail(string userId,string token)
+    {
+        if (userId == null || token == null)
+        {
+            return RedirectToPage("/Index");
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound($"Unable to load user with ID '{userId}'.");
+        }
+        token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        var result = await _userManager.ConfirmEmailAsync(user,token);
+        if (result.Succeeded)
+        {
+            return RedirectToAction("SignIn");
+        }
+        return new NotFoundResult();
+    }
+    </code>
+</pre>
+
+<h2>Create SignIn Functionality</h2>
+1. Create SignInViewModel.cs
+2. Needs to Inject <b style="color:red">SignInManager</b> Class <br>
+3. Write SignIn Functionality <br>
+4. Create SignIn View <br>
+<h4>1.Create SignInViewModel.cs</h4>
+<pre>
+    <code class="language-csharp">  
+    namespace IdentityCore.Models
+    {
+        public class SignInViewModel
+        {
+            [Required(ErrorMessage ="UserName must be Provided")]
+            public string Username { get; set; }
+            [Required(ErrorMessage = "Password must be Provided")]
+            public string Password { get; set; }
+            public bool RememberMe { get; set; } = false;
+        }
+    }
+    </code>
+</pre>
+
+
+<h4>2. Needs to Inject SignInManager Class</h4>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+        public class AccountController : Controller
+        {
+            private readonly UserManager&lt;IdentityUser> _userManager;
+            private readonly IEmailSender _emailSender;
+            private readonly SignInManager&lt;IdentityUser> _signInManager;
+    
+            public AccountController(UserManager&lt;IdentityUser> userManager,IEmailSender emailSender,<kbd>SignInManager</kbd>&lt;IdentityUser> signInManager)
+            {
+                _userManager = userManager;
+                _emailSender = emailSender;
+                _signInManager = signInManager;
+            }
+
+            ...
+    </code>
+</pre>
+<h4>3. Write SignIn Functionality</h4> 
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+        public async Task&lt;IActionResult> SignIn(SignInViewModel model)
+            {
+                if (ModelState.IsValid)
+                {
+                    
+                    var result = await _signInManager.<kbd>PasswordSignInAsync</kbd>(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else if (result.IsLockedOut)
+                    {
+                        ModelState.AddModelError("Login", "Cannot Login Account is LockOut");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Login","Cannot Login.");
+                    } 
+                    
+                }
+                return View(model);
+            }
+
+                .... Inside Startup.cs
+
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.LoginPath = "/Account/SignIn";
+                    options.AccessDeniedPath = "/Account/AccessDenied";
+
+                    ...
+                    //Add this line to Confirm Email for this first Sign Up then only allow to SignIn
+                   <kbd> options.SignIn.RequireConfirmedEmail = true;</kbd>
+                });
+
+                <kbd>
+                services.Configure&lt;SmtpOptions>(Configuration.GetSection("Smtp"));
+
+                services.AddSingleton&lt;IEmailSender, SmtpEmailSender>();
+                </kbd>
+        
+                services.AddControllersWithViews();
+                .... Startup.cs end Here
+
+    </code>
+</pre>
+<h4>4. Create SignIn.cshtml</h4>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+        @model SignInViewModel
+        @{
+            ViewData["Title"] = "SignIn";
+        }
+        &lt;form method="post" action="/account/signIn">
+           <kbd> @Html.ValidationSummary()</kbd>  //Caught error send by ModelState
+            &lt;div class="form-group col-4">
+                &lt;label for="Username">Username&lt;/label>
+                &lt;input type="text" name="UserName" />
+            &lt;/div>
+        
+            &lt;div class="form-group col-4">
+                &lt;label for="Password">Password&lt;/label>
+                &lt;input type="password" name="Password" />
+                &lt;input type="checkbox" name="RememberMe" /> RememberMe
+            &lt;/div>
+        &lt;button type="submit" class="btn btn-primary">Sign In&lt;/button>
+        &lt;/form>
+    </code>
+    </pre>
+<hr>
+<h4>5. SignIn Functionality</h4>
+<pre data-keep-tags="kbd, em">
+    <code class="language-csharp">
+    
+    </code>
+    </pre>
+
+<script src="../../js/prism.js"></script>
+<script type="text/javascript">
+    Prism.plugins.NormalizeWhitespace.setDefaults(
+        {
+            'remove-trailing': true,
+            'remove-indent': true,
+            'left-trim': true,
+            'right-trim': true,
+            // 'break-lines': 10,
+            // 'indent': 2,
+            // 'remove-initial-line-feed': false,
+            // 'tabs-to-spaces': 4,
+            // 'spaces-to-tabs': 4
+        });
+
+
+    (function () {
+        if (!self.Prism) {
+            return;
+        }
+
+        var div = document.createElement('div');
+
+        Prism.hooks.add('before-highlight', function (env) {
+            var elt = env.element;            if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                elt = elt.parentNode;
+            }
+            var tags = elt.getAttribute('data-keep-tags');
+            if (!tags) {
+                return;
+            }
+            var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+            env.keepTags = true;
+            env.keepTagsPlaceholder = placeholder;
+
+            tags = tags.split(/\s*,\s*/).join('|');
+            var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+            env.keepTagsRegex = tags_regex;
+
+            env.tokenStack = [];
+            env.backupCode = env.code;
+
+            var code = env.element.innerHTML;
+            code = code.replace(tags_regex, function (match) {
+                env.tokenStack.push(match);
+                return placeholder.replace('{n}', env.tokenStack.length);
+            });
+            env.element.innerHTML = code;
+            code = env.element.textContent;
+            code = code.replace(/^(?:\r?\n|\r)/, '');
+
+            env.code = code;
+        });
+
+        Prism.hooks.add('after-highlight', function (env) {
+            if (!env.keepTags) {
+                return;
+            }
+            for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                    div.innerHTML = inside;
+                    inside = div.textContent;
+                    return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                });
+
+                env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                env.element.innerHTML = env.highlightedCode;
+            }
+        });
+
+    }());
+
+    Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+        v.classList.add("language-sql");
+    });
+    Prism.highlightAll();
+
+</script>
+</body>
+
+</html>
