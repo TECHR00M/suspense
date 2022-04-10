@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../Ef/css/bootstrap.css">
+    <link rel="stylesheet" href="../Ef/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../Ef/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../Ef/css/dracula.css">
+    <link rel="stylesheet" href="../Ef/css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+</head>
+<style>
+    kbd {
+        background: black
+    }
+</style>
+<body>
+
+
+
+    
+1) Create 3 Screen : about.js , home.js , reviewDetails.js
+2) Create Global Style  and using it.
+3) Load Custom Font in Root JS ie App.js
+
+<br>
+<img src="https://i.ibb.co/bKXg35w/navigation1.jpg">
+
+
+<div class="row">
+    <div class="col-lg-4">
+       screens/home.js
+<pre data-keep-tags="kbd, em">
+<code class="language-javascript">
+import React from 'react';
+import {StyleSheet,View,Text} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function Home(){
+    return(
+        &lt;View style={globalStyles.container}>
+            &lt;Text style={globalStyles.titleText}>Home Screen&lt;/Text>
+        &lt;/View>
+    )
+}
+
+</code>
+</pre>
+</div>
+
+<div class="col-lg-4">
+       About.js
+    <pre data-keep-tags="kbd, em">
+    <code class="language-javascript">
+import React from 'react';
+import {StyleSheet,View,Text} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function About(){
+    return(
+        &lt;View  style={globalStyles.container}>
+            &lt;Text>About Screen&lt;/Text>
+        &lt;/View>
+    )
+}
+
+        
+    </code>
+    </pre>
+    </div>
+    <div class="col-lg-4">
+       ReviewDetails.js
+        <pre data-keep-tags="kbd, em">
+        <code class="language-javascript">
+import React from 'react';
+import {StyleSheet,View,Text} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function ReviewDetail(){
+    return(
+        &lt;View style={globalStyles.container}>
+            &lt;Text>Review Detail Screen&lt;/Text>
+        &lt;/View>
+    )
+}   
+        </code>
+        </pre>
+        </div>
+</div>
+
+
+<div class="row">
+   
+    <div class="col-lg-4">
+        styles/global.js
+         <pre data-keep-tags="kbd, em">
+         <code class="language-javascript">
+
+            import {StyleSheet} from 'react-native';
+
+            export const globalStyles = StyleSheet.create({
+                container:{
+                    flex:1,
+                    padding:20
+                },
+                titleText:{
+                    fontFamily:'nunito-bold',
+                    fontSize:18,
+                    color:'#333'
+                },
+                paragraph:{
+                    marginVertical:8,
+                    lineHeight:20
+                }
+            }) 
+         </code>
+         </pre>
+         </div>
+
+         <div class="col-lg-4">
+         <b> App.js </b>
+<br>
+1. First you have to install expo-app-loading 
+2. Then when font(in this case: nunito) is not loaded then call app-loading icon 
+3. Else load Home Page.
+
+             <pre data-keep-tags="kbd, em">
+             <code class="language-javascript">
+import {StyleSheet} from 'react-native';
+<kbd>import Home from './screens/home';
+    import AppLoading from 'expo-app-loading';
+    import { useFonts } from 'expo-font';</kbd>
+
+
+export default function App() {
+
+    let [fontsLoaded] = useFonts({
+    'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+    'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf')
+    });
+
+    if (!fontsLoaded) {
+    return &lt;AppLoading />;
+    }
+    return &lt;Home />;
+}
+
+const styles = StyleSheet.create({
+    
+});
+                
+             </code>
+             </pre>
+             </div>
+
+ </div>
+
+<hr>
+<h2>Navigation Between Screen</h2>
+
+<h3>Method 1: Stack Navigation</h3>
+<h2><span style="color: #e03e2d;"><strong><span id="Stack-Navigator">Stack Navigator</span></strong></span></h2>
+<p><span style="font-size: 14pt;">Stack Navigator is used to moving/navigate between screens. It is called Stack navigator because while doing navigation it managed the stack of the screens. For example, If I have FirstPage, SecondPage, and ThirdPage and I am moving from FirstPage to SecondPage then it will keep the FirstPage in the stack and after moving to ThirdPage it will keep FirstPage and SecondPage in the stack. Once we request to go back to the previous screen it will pull the last inserted screen form the stack and show it in front, so in case of ThirdPage, we will see SecondPage and from SecondPage we will see FirstPage.</span></p>
+
+First install following Package: <br><br>
+
+<b>
+npm install @react-navigation/native  <br>
+npm install @react-navigation/native-stack <br>
+npm install react-native-screens react-native-safe-area-context  <br>
+npm install react-native-gesture-handler  <br>
+</b>
+
+Then create routes/stack.js file for defining routes.
+<br>
+<h4>routes/stack.js</h4>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from '../screens/home';
+import ReviewDetails from '../screens/reviewDetails';
+
+const Stack = createStackNavigator();
+
+export default function Navigator(){
+    return (
+        &lt;NavigationContainer>
+            &lt;Stack.Navigator initialRouteName='Home'>
+                &lt;Stack.Screen name='Home' component={Home}/>
+                &lt;Stack.Screen name='ReviewDetails' component={ReviewDetails}/>
+            &lt;/Stack.Navigator>
+            &lt;/NavigationContainer>
+    );
+}     
+        </code>
+        </pre>
+    </div>
+
+    <div class="col-lg-6">
+
+        App.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+
+<kbd>import 'react-native-gesture-handler';</kbd>
+
+import {StyleSheet} from 'react-native';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+<kbd>import Navigator from './routes/stack';</kbd>
+
+export default function App() {
+
+    let [fontsLoaded] = useFonts({
+    'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+    'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf')
+    });
+
+    if (!fontsLoaded) {
+    return &lt;AppLoading />;
+    }
+    return (
+   <kbd> Navigator()</kbd>
+    )
+}
+
+const styles = StyleSheet.create({
+    
+});
+                
+        </code>
+        </pre>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        
+Now inside <b>screens/home.js </b><br>
+Inside home.js , when click on button navigate to ReviewDetails Page .
+<br>
+But note that we donot have to pass navigation from other side as we used to do for passing from app to home js.
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import React from 'react';
+import {StyleSheet,View,Text,Button} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function Home(<kbd>{navigation}</kbd>){
+
+    const pressHandler = () => {
+        <kbd>navigation.navigate('ReviewDetails')</kbd>
+    }
+    return(
+        &lt;View style={globalStyles.container}>
+            &lt;Text style={globalStyles.titleText}>Home Screen&lt;/Text>
+            &lt;Button title='go to review details'  onPress={pressHandler}/>
+        &lt;/View>
+    )
+}   
+        </code>
+        </pre>
+    </div>
+
+    <div class="col-lg-6">
+
+        Inside <b>reviewDetails.js</b>, when click on button navigate back to home page.
+
+
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import React from 'react';
+import {StyleSheet,View,Text,Button} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function ReviewDetail(<kbd>{navigation}</kbd>){
+
+    const pressHandler = () =>{
+      <kbd>navigation.goBack();</kbd>
+    }
+
+    return(
+        &lt;View style={globalStyles.container}>
+            &lt;Text>Review Detail Screen&lt;/Text>
+            &lt;Button title='go back home' onPress={pressHandler}/>
+        &lt;/View>
+    )
+}
+        </code>
+        </pre>
+    </div>
+</div>
+
+
+<h2>Passing Data from One Screen to Another .</h2>
+<a href="https://reactnavigation.org/docs/params">Official Source</a> <br>
+<p><span style="font-size: 14pt;">There are two pieces to this:</span></p>
+<p><span style="font-size: 14pt;">Pass params to a route by putting them in an object as a second parameter to the&nbsp;<strong><span style="color: #e03e2d;"><code>navigation.navigate</code></span></strong>&nbsp;function:<strong><span style="color: #e03e2d;">&nbsp;<code>navigation.navigate('RouteName', { /* params go here */ })</code></span></strong></span></p>
+<ol>
+<li>
+<p><span style="font-size: 14pt;">Read the params in your screen component:&nbsp;<span style="color: #e03e2d;"><code>route.params</code>.</span></span></p>
+</li>
+</ol>
+<br>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import {useState} from 'react';
+import {StyleSheet,View,Text,Button,FlatList,TouchableOpacity} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function Home({navigation}){
+
+    const [reviews, setReviews] = useState([
+        { title: 'Zelda, Breath of Fresh Air', rating: 5, body: 'lorem ipsum', key: '1' },
+        { title: 'Gotta Catch Them All (again)', rating: 4, body: 'lorem ipsum', key: '2' },
+        { title: 'Not So "Final" Fantasy', rating: 3, body: 'lorem ipsum', key: '3' },
+        ]);
+
+    return(
+        &lt;View style={globalStyles.container}>
+        &lt;FlatList data={reviews} renderItem={({ item }) => (
+            &lt;TouchableOpacity <kbd>onPress={() => navigation.navigate('ReviewDetails', item)}</kbd>>
+            &lt;Text style={globalStyles.titleText}>{ item.title }&lt;/Text>
+        &lt;/TouchableOpacity>
+        )} />
+        &lt;/View>
+)  }                
+        </code>
+        </pre>
+    </div>
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import React from 'react';
+import {StyleSheet,View,Text,Button} from 'react-native';
+import {globalStyles} from '../styles/global'
+
+export default function ReviewDetail(<kbd>{route,navigation}</kbd>){
+
+    return(
+        &lt;View style={globalStyles.container}>
+            &lt;View style={globalStyles.container}>
+            &lt;Text>{<kbd> route.params</kbd>.title}&lt;/Text>
+            &lt;Text>{<kbd>route.params</kbd>.body }&lt;/Text>
+            &lt;Text>{ <kbd>route.params</kbd>.rating }&lt;/Text>
+            &lt;/View>
+        &lt;/View>
+    )
+}
+                </code>
+                </pre>
+
+    </div>
+</div>
+
+
+
+
+    <script src="../EF/js/prism.js"></script>
+    <script type="text/javascript">
+        Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+
+    </script>
+</body>
+
+</html>
+
+
+app.js
+
+import 'react-native-gesture-handler';
+
+import {StyleSheet} from 'react-native';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+import NavigatorDrawer from './routes/drawer';
+
+export default function App() {
+
+  let [fontsLoaded] = useFonts({
+    'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+    'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf')
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  return (
+    NavigatorDrawer()
+  )
+}
+
+const styles = StyleSheet.create({
+  
+});
+
+
+==================
+
+aboutstack.js
+
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import About from '../screens/about';
+
+const Stack = createStackNavigator();
+
+export default function AboutNavigator(){
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName='Home'>
+                <Stack.Screen 
+                    name='About'
+                     component={About}
+                     options={{
+                        title: 'About Page' , //Set Header Title
+                        headerStyle: {
+                          backgroundColor: 'red', //Set Header color
+                        },
+                        headerTintColor: '#fff', //Set Header text color
+                        headerTitleStyle: {
+                          fontWeight: 'bold', //Set Header text style
+                        },
+                      }} 
+                />
+            </Stack.Navigator>
+            </NavigationContainer>
+    );
+}
+
+
+
+======
+stack.js 
+
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from '../screens/home';
+import ReviewDetails from '../screens/reviewDetails';
+
+
+
+const Stack = createStackNavigator();
+
+export default function Navigator(){
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName='Home'>
+                <Stack.Screen 
+                    name='Home'
+                     component={Home}
+                     options={{
+                        title: 'Home Page' , //Set Header Title
+                        headerStyle: {
+                          backgroundColor: 'red', //Set Header color
+                        },
+                        headerTintColor: '#fff', //Set Header text color
+                        headerTitleStyle: {
+                          fontWeight: 'bold', //Set Header text style
+                        },
+                      }} 
+                />
+                <Stack.Screen 
+                    name='ReviewDetails' 
+                    component={ReviewDetails}
+                    options={{
+                        title: 'Detail Page',
+                        headerStyle: {
+                          backgroundColor: '#f4511e',
+                        },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                          fontWeight: 'bold',
+                        },
+                      }}
+                    />
+            </Stack.Navigator>
+            </NavigationContainer>
+    );
+}
+
+
+
+======
+drawer.js 
+
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+
+import Stack from './stack';
+import About from './aboutstack';
+
+
+const Drawer = createDrawerNavigator();
+
+export default function NavigatorDrawer(){
+    return (
+        <NavigationContainer>
+            <Drawer.Navigator initialRouterName="Home">
+                <Drawer.Screen name="Home" component={Stack}/>
+                <Drawer.Screen name="About" component={About}/>
+            </Drawer.Navigator>
+        </NavigationContainer>
+    ); 
+}
