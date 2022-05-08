@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../Ef/css/bootstrap.css">
+    <link rel="stylesheet" href="../Ef/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../Ef/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../Ef/css/dracula.css">
+    <link rel="stylesheet" href="../Ef/css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+</head>
+<style>
+    kbd {
+        background: black
+    }
+</style>
+<body>
+
+    <p><span style="font-size: 14pt;">Two ways you can create react native :</span></p>
+    <p><span style="font-size: 14pt;">1) Using Expo&nbsp;</span></p>
+    <p><span style="font-size: 14pt;">2) From Scratch&nbsp;</span></p>
+    <p><span style="font-size: 14pt;">March 2015, F8 Conference &ndash; Official Launch of React Native</span></p>
+    <p><span style="font-size: 14pt;">React Native uses components that are analogous to widgets in Flutter.</span></p>
+    <p><span style="font-size: 14pt;">Installation Requirement:</span></p>
+    <p><span style="font-size: 14pt;">1) Download <span style="color: #e03e2d;">nodeJS </span>(Should be greater than 12 version. check it : node -v)<br />2) Install <span style="color: #e03e2d;">Expo &nbsp;</span>Globally : <strong><span style="color: #e03e2d;">npm install expo-cli --global</span>&nbsp;</strong><br />3) Create your first project :<br />&nbsp; &nbsp;- <span style="color: #e03e2d;">expo init mynewproject&nbsp;</span><br />&nbsp; &nbsp;- <span style="color: #e03e2d;">cd mynewproject</span><br />&nbsp; &nbsp;-<span style="color: #e03e2d;"> expo start&nbsp;</span></span></p>
+
+<h2>Simple Hello World</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+            
+                
+            import { StatusBar } from 'expo-status-bar';
+            import { StyleSheet, Text, View } from 'react-native';
+            
+            export default function App() {
+              return (
+                &lt;View style={styles.container}>
+                  <kbd>  &lt;View style={styles.header}>
+                        &lt;Text style={styles.boldText}>Hello World&lt;/Text>
+                    &lt;/View></kbd>
+            
+                   <kbd>
+                    &lt;View style={styles.body}>
+                        &lt;Text>Lorem Ipsum1&lt;/Text>
+                    &lt;/View>
+                   </kbd>
+                &lt;/View>
+              );
+            }
+            
+            const styles = StyleSheet.create({
+              container: {
+                flex: 1,
+                backgroundColor: 'red',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+              header:{
+                backgroundColor:'pink',
+                padding:20,
+              },
+              boldText:{
+                fontWeight:'bold',
+              },
+              body:{
+                backgroundColor:'yellow'
+              }
+            });
+            
+            </code>
+            </pre>
+            
+                
+    </div>
+
+    <div class="col-lg-6">
+    
+            
+                
+    </div>
+</div>
+
+<ul>
+    <li><span style="font-size: 14pt;">we import the Text and View components from react-native.</span></li>
+    <li><span style="font-size: 14pt;">Here we have<span style="color: #2dc26b;"> App function </span>, which is functional component .<span style="color: #2dc26b;">Then functions returns a View Component with some styles and a Text as its child.</span></span></li>
+    <li><span style="font-size: 14pt;">View Component renders a container. View is like div , span .</span></li>
+    <li><span style="font-size: 14pt;">Text Component renders a text.</span></li>
+    <li><span style="font-size: 14pt;">Here , flex is a prop and set it to 1, which takes whole container,whole space as there is only 1 container.</span></li>
+    <li><span style="font-size: 14pt;">Here, &lt;View&gt;&lt;Text&gt;.. &lt;/Text&gt;&lt;/View&gt; is JSX- a syntax for embedding XML within Javascript.JSX lets you write your markup language inside code. It looks like HTML on the web,</span></li>
+    <li><span style="font-size: 14pt;">React Native donot use CSS , but emulate idea of CSS, at the end converts to android and IOS equivalent to understand those CSS.</span></li>
+    <li><span style="font-size: 14pt;">In case of StyleSheet we import it and call a method create which accepts objects of css.</span></li>
+    </ul>
+
+    <pre data-keep-tags="kbd, em">
+        <code class="language-javascript">
+        
+            const style = StyleSheet.create({
+                    container:{
+                        flex:1
+                    }
+                })
+            </code>
+            </pre>
+
+<hr>
+<h2>Using State in React Native: Use React hooks </h2>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { <kbd>useState</kbd> } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+
+export default function App() {
+
+   <kbd> const [name,setName] = useState('shaun');</kbd>
+
+    return (
+    &lt;View style={styles.container}>
+        &lt;Text>My Name is <kbd>{name}</kbd>&lt;/Text>
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    }
+                
+</code>
+</pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+<p><span style="font-size: 14pt;"><span style="color: #000000;">In react we use camel case like</span> <span style="color: #2dc26b;">backgroundColor , <span style="color: #000000;">alternative to css :background-color</span></span></span></p>
+<hr>
+
+<hr>
+
+<h2>Using Button and OnClick</h2>
+ Note:We cannot add style property to default button. But note that we can create custom button.
+
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { useState } from 'react';
+import { StyleSheet, Text, View ,<kbd>Button</kbd> } from 'react-native';
+
+
+export default function App() {
+
+    const [name,setName] = useState('shaun');
+
+   <kbd> const clickHandler = () => {
+        setName('Diwas');
+        }
+</kbd>
+
+    return (
+    &lt;View style={styles.container}>
+        &lt;Text>My Name is {name}&lt;/Text>
+        &lt;View style={styles.buttonContainer}>
+        &lt;Button title='Update State'  <kbd>onPress={clickHandler}</kbd>/>
+        &lt;/View>
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    },
+    buttonContainer:{
+    marginTop:5
+    }
+});
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+<hr>
+<h2>Change Object on Button Click 
+</h2>
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+            
+import { useState } from 'react';
+import { StyleSheet, Text, View ,Button } from 'react-native';
+
+
+export default function App() {
+
+  const [name,setName] = useState('shaun');
+<kbd>  
+    const [person,setPerson] = useState({name:'mario',age:40});
+</kbd>
+
+  const clickHandler = () => {
+      setName('Diwas');
+      <kbd>setPerson({name:'Diwas',age:78});</kbd>
+  }
+
+  return (
+    &lt;View style={styles.container}>
+<kbd>        &lt;Text>His name is {person.name} and his is {person.age} years old.&lt;/Text></kbd>
+        &lt;Text>My Name is {name}&lt;/Text>
+    &lt;View style={styles.buttonContainer}>
+        &lt;Button title='Update State'  <kbd>onPress={clickHandler}</kbd>/>
+        &lt;/View>
+    &lt;/View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer:{
+    marginTop:5
+  }
+});
+
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+<hr>
+
+<hr>
+<h2>Input Field
+</h2>
+
+You have to set CSS to give order of Input Field if you want to look like html input field.
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+
+import { useState } from 'react';
+import { StyleSheet, Text, View ,<kbd>TextInput</kbd> } from 'react-native';
+
+
+export default function App() {
+
+    const [name,setName] = useState('shaun');
+    return (
+    &lt;View style={styles.container}>
+        &lt;Text>Enter Name:</Text>
+       <kbd> 
+        &lt;TextInput 
+        multiline
+        style={styles.inputTxt} 
+        placeholder='eg. Diwas'
+        onChangeText={(val) => setName(val)}/></kbd>
+
+        &lt;Text>name: {name}&lt;/Text>
+
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    },
+    inputTxt:{
+    borderWidth:1,
+    borderColor:'#777',
+    padding:8,
+    margin:10,
+    width:200
+
+    }
+});
+
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+
+<hr>
+<h2>List View
+</h2>
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { useState } from 'react';
+import { StyleSheet, Text, View  } from 'react-native';
+
+
+export default function App() {
+
+    const [person,setPeople] =useState([
+    {name:'Shaun',key:'1'},
+    {name:'Yoshi',key:'2'},
+    {name:'Mario',key:'3'},
+    {name:'Luigi',key:'4'},
+    {name:'Peach',key:'5'},
+    {name:'Toad',key:'6'},
+    {name:'Bowser',key:'7'},
+    {name:'Diwas',key:'8'},
+    {name:'Poudel',key:'9'},
+    ]);
+
+
+    return (
+    &lt;View style={styles.container}>
+        {person.map(item => (
+        &lt;View key={item.key}>
+            &lt;Text style={styles.lstStyle}>{item.name}&lt;/Text>
+            &lt;/View>
+        ))}
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop:40
+    },
+    lstStyle:{
+    marginTop:40,
+    padding:20,
+    backgroundColor:'yellow',
+    fontSize:24
+    }
+});
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+<h2>ScrollView</h2>
+
+
+</h2>
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { useState } from 'react';
+import { StyleSheet, Text, View ,ScrollView } from 'react-native';
+
+
+export default function App() {
+
+    const [person,setPeople] =useState([
+    {name:'Shaun',key:'1'},
+    {name:'Yoshi',key:'2'},
+    {name:'Mario',key:'3'},
+    {name:'Luigi',key:'4'},
+    {name:'Peach',key:'5'},
+    {name:'Toad',key:'6'},
+    {name:'Bowser',key:'7'},
+    {name:'Diwas',key:'8'},
+    {name:'Poudel',key:'9'},
+    ]);
+
+
+    return (
+    &lt;View style={styles.container}>
+        <kbd>&lt;ScrollView></kbd>
+        {person.map(item => (
+        &lt;View key={item.key}>
+            &lt;Text style={styles.lstStyle}>{item.name}&lt;/Text>
+            &lt;/View>
+        ))}
+      <kbd>  &lt;/ScrollView></kbd>
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop:40
+    },
+    lstStyle:{
+    marginTop:40,
+    padding:20,
+    backgroundColor:'yellow',
+    fontSize:24
+    }
+});
+                
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>  
+
+<hr>
+<h2>Flat View</h2>
+
+<hr>
+<ul>
+    <li><span style="font-size: 14pt;">For large list FlatList is better because it<span style="color: #2dc26b;"><strong> lazy load</strong></span> the list. And when you scroll , it load remaining from the list.</span></li>
+    <li><strong><span style="font-size: 14pt;">You donot have to wrap it with ScrollView for scrolling . It has auto scrolling effect</span></strong></li>
+    <li><span style="font-size: 14pt;">You donot have to use Key Property.</span></li>
+    </ul>
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { useState } from 'react';
+import { StyleSheet, Text, View ,FlatList } from 'react-native';
+
+
+export default function App() {
+
+    const [person,setPeople] =useState([
+    {name:'Shaun',key:'1'},
+    {name:'Yoshi',key:'2'},
+    {name:'Mario',key:'3'},
+    {name:'Luigi',key:'4'},
+    {name:'Peach',key:'5'},
+    {name:'Toad',key:'6'},
+    {name:'Bowser',key:'7'},
+    {name:'Diwas',key:'8'},
+    {name:'Poudel',key:'9'},
+    ]);
+
+
+    return (
+    &lt;View style={styles.container}>
+    
+        <kbd>&lt;FlatList </kbd>
+            data={person}
+            renderItem={({item}) => (
+            &lt;Text style={styles.lstStyle}>{item.name}&lt;/Text>
+            )}
+            <kbd>/></kbd>
+    
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop:40
+    },
+    lstStyle:{
+    marginTop:40,
+    padding:20,
+    backgroundColor:'yellow',
+    fontSize:24
+    }
+});
+
+                
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+<hr>
+<h2>Flat View With Horizontal</h2>
+
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { useState } from 'react';
+import { StyleSheet, Text, View ,FlatList } from 'react-native';
+
+
+export default function App() {
+
+    const [person,setPeople] =useState([
+    {name:'Shaun',key:'1'},
+    {name:'Yoshi',key:'2'},
+    {name:'Mario',key:'3'},
+    {name:'Luigi',key:'4'},
+    {name:'Peach',key:'5'},
+    {name:'Toad',key:'6'},
+    {name:'Bowser',key:'7'},
+    {name:'Diwas',key:'8'},
+    {name:'Poudel',key:'9'},
+    ]);
+
+
+    return (
+    &lt;View style={styles.container}>
+    
+        &lt;FlatList 
+            numColumns={2}
+            keyExtractor={(item) => item.id}
+            data={person}
+            renderItem={({item}) => (
+            &lt;Text style={styles.lstStyle}>{item.name}&lt;/Text>
+            )}
+            />
+    
+    </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop:40
+    },
+    lstStyle:{
+    marginTop:40,
+    padding:20,
+    backgroundColor:'yellow',
+    fontSize:24,
+    marginHorizontal:10,
+    marginTop:24
+    }
+});
+                
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+<hr>
+<h2>OnClick on Text Component, Not on Button Component</h2>
+
+TouchableOpacity : <b>A wrapper for making views respond properly to touches. On key down, the opacity of the wrapped view is decreased, dimming it.</b>
+(<a href="https://aboutreact.com/react-native-touchable/">source</a>)
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { useState } from 'react';
+import { StyleSheet, Text, View, FlatList, <kbd>TouchableOpacity</kbd> } from 'react-native';
+
+export default function App() {
+    const [people, setPeople] = useState([
+    { name: 'shaun', id: '1' },
+    { name: 'yoshi', id: '2' },
+    { name: 'mario', id: '3' },
+    { name: 'luigi', id: '4' },
+    { name: 'peach', id: '5' },
+    { name: 'toad', id: '6' },
+    { name: 'bowser', id: '7' },
+    ]);
+
+    const pressHandler = (id) => {
+    console.log(id);
+    };
+
+    return (
+    &lt;View style={styles.container}>
+
+        &lt;FlatList 
+        numColumns={2}
+        keyExtractor={(item) => item.id} 
+        data={people} 
+        renderItem={({ item }) => (
+        <kbd>&lt;TouchableOpacity onPress={() => pressHandler(item.id)}></kbd>
+            &lt;Text style={styles.lstStyle}>{item.name}&lt;/Text>
+            &lt;/TouchableOpacity>
+        )}
+        />
+
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    paddingTop: 40,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    },
+    lstStyle: {
+    flex: 1,
+    marginHorizontal: 10,
+    marginTop: 24,
+    padding: 30,
+    backgroundColor: 'pink',
+    fontSize: 24,
+    },
+});
+                
+                
+                </code>
+                </pre>
+    </div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+
+    <script src="../EF/js/prism.js"></script>
+    <script type="text/javascript">
+        Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+
+    </script>
+</body>
+
+</html>

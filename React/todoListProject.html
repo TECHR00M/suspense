@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dracula — A dark theme for Prism.js and 50+ apps</title>
+    <link rel="stylesheet" href="../Ef/css/bootstrap.css">
+    <link rel="stylesheet" href="../Ef/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../Ef/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../Ef/css/dracula.css">
+    <link rel="stylesheet" href="../Ef/css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+</head>
+<style>
+    kbd {
+        background: black
+    }
+</style>
+<body>
+
+<h2>Header and TodoItem Component</h2>
+Here we have created Header and TodoItem Component and Passing which item to TodoItem and iterate through them.
+<div class="row">
+    <div class="col-lg-6">
+        App.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+
+import { useState } from 'react';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import Header  from "./components/header";
+import TodoItem from './components/todoItem';
+
+export default function App() {
+
+const [todos,setTodos] = useState([
+    {text:'buy coffee',key:'1'},
+    {text:'create an app',key:'2'},
+    {text:'play on the switch',key:'3'}
+])
+
+    return (
+    &lt;View style={styles.container}>
+        <kbd>&lt;Header/></kbd>
+        &lt;View style={styles.content}>
+        {/* header */}
+        &lt;View style={styles.list}>
+            &lt;FlatList
+            data={todos}
+            renderItem={({item})=>(
+            <kbd>&lt;TodoItem  item={item}/></kbd>
+            )}
+            />
+        &lt;/View>
+        &lt;/View>
+    
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    },
+    list:{
+
+    }
+    
+});
+
+    </code>  
+ </pre>
+</div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-6">
+        components/header.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function <kbd>Header()</kbd>{
+    return (
+        &lt;View style={styles.header}>
+            &lt;Text style={styles.title}>My Todos&lt;/Text>
+        &lt;/View>
+    )
+}
+
+const styles = StyleSheet.create({
+    header:{
+        height:80,
+        paddingTop:38,
+        backgroundColor:'coral'
+    },
+    title:{
+        textAlign:'center',
+        color:'#fff',
+        fontSize:20,
+        fontWeight:'bold'
+    }
+})
+                
+    </code>  
+ </pre>
+ </div>
+
+    <div class="col-lg-6">
+        components/todoItem.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { StyleSheet, Text,TouchableOpacity } from 'react-native';
+
+export default function <kbd>TodoItem({item})</kbd>{
+    return (
+        &lt;TouchableOpacity>
+            &lt;Text style={styles.item}>{item.text}&lt;/Text>
+        &lt;/TouchableOpacity>
+    )
+}
+
+const styles = StyleSheet.create({
+    item:{
+        padding:16,
+        marginTop:16,
+        borderColor:'#bbb',
+        borderWidth:1,
+        borderStyle:'solid',
+        borderRadius:10,
+        textAlign:'center'
+    }
+})
+                
+                
+    </code>  
+ </pre>
+    </div>
+ 
+
+</div>
+</div>
+<hr>
+<hr>
+
+
+<h2>ClickHandler on the List</h2>
+As state(ie useState) is in app.js so, we have to create function of click on app.js . Using clickHandler function in todoItem.js doesnot work.
+Note: That todos state will always hold the latest value.
+<div class="row">
+    <div class="col-lg-6">
+        App.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+
+import { useState } from 'react';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import Header  from "./components/header";
+import TodoItem from './components/todoItem';
+
+export default function App() {
+
+const [todos,setTodos] = useState([
+    {text:'buy coffee',key:'1'},
+    {text:'create an app',key:'2'},
+    {text:'play on the switch',key:'3'}
+])
+
+const pressHandler = (key) =>{
+  
+    setTodos((prevTodos)=>{
+      console.log(prevTodos)
+      return prevTodos.filter(todo => todo.key != key)
+    });
+  }
+  
+
+    return (
+    &lt;View style={styles.container}>
+        &lt;Header/>
+        &lt;View style={styles.content}>
+        {/* header */}
+        &lt;View style={styles.list}>
+            &lt;FlatList
+            data={todos}
+            renderItem={({item})=>(
+                &lt;TodoItem  item={item}  <kbd>pHandler={pressHandler}</kbd>/>
+            )}
+            />
+        &lt;/View>
+        &lt;/View>
+    
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    },
+    list:{
+
+    }
+    
+});
+
+    </code>  
+ </pre>
+</div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-6">
+        components/header.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function <kbd>Header()</kbd>{
+    return (
+        &lt;View style={styles.header}>
+            &lt;Text style={styles.title}>My Todos&lt;/Text>
+        &lt;/View>
+    )
+}
+
+const styles = StyleSheet.create({
+    header:{
+        height:80,
+        paddingTop:38,
+        backgroundColor:'coral'
+    },
+    title:{
+        textAlign:'center',
+        color:'#fff',
+        fontSize:20,
+        fontWeight:'bold'
+    }
+})
+                
+    </code>  
+ </pre>
+ </div>
+
+    <div class="col-lg-6">
+        components/todoItem.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { StyleSheet, Text,TouchableOpacity } from 'react-native';
+
+export default function TodoItem({item,<kbd>pHandler</kbd>}){
+    return (
+      &lt;TouchableOpacity onPress={()=><kbd>pHandler(item.key)</kbd>}>
+        &lt;Text style={styles.item}>{item.text}&lt;/Text>
+     &lt;/TouchableOpacity>
+    )
+}
+
+
+const styles = StyleSheet.create({
+    item:{
+        padding:16,
+        marginTop:16,
+        borderColor:'#bbb',
+        borderWidth:1,
+        borderStyle:'solid',
+        borderRadius:10,
+        textAlign:'center'
+    }
+})
+                
+                
+    </code>  
+ </pre>
+    </div>
+ 
+
+</div>
+</div>
+
+
+<h2>AddItem and Alert If length less than 3</h2>
+Note: Alert should be import inside react-native . It should not be inside react-native-web
+
+<div class="row">
+    <div class="col-lg-6">
+        App.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+
+import { useState } from 'react';
+import { StyleSheet, Text, View, FlatList,<kbd>Alert</kbd> } from 'react-native';
+<kbd>import AddTodo from './components/addTodo';</kbd>
+import Header  from "./components/header";
+import TodoItem from './components/todoItem';
+
+export default function App() {
+
+const [todos,setTodos] = useState([
+    {text:'buy coffee',key:'1'},
+    {text:'create an app',key:'2'},
+    {text:'play on the switch',key:'3'}
+])
+
+const pressHandler = (key) =>{
+    
+    setTodos((prevTodos)=>{
+    console.log(prevTodos)
+    return prevTodos.filter(todo => todo.key != key)
+    });
+}
+
+<kbd>
+    const submitHandler = (txtFieldData) =>{
+        if(txtFieldData.length >3){
+        setText('');   //Clearing Text Field
+        setTodos((prevTodos)=>{
+            return [
+            {text:txtFieldData,id:Math.random.toString()},
+            ...prevTodos
+            ];
+        })
+        }
+        else{
+        console.log('alert');
+        Alert.alert('OOPS', 'Todo must be over 3 characters long', [
+            {text: 'Understood', onPress: () => console.log('alert closed') }
+        ]);
+        }
+    }
+</kbd>
+    return (
+    &lt;View style={styles.container}>
+        &lt;Header/>
+        &lt;View style={styles.content}>
+     <kbd>   &lt;AddTodo  submitHandler={submitHandler} /></kbd>
+        &lt;View style={styles.list}>
+            &lt;FlatList
+            data={todos}
+            renderItem={({item})=>(
+            &lt;TodoItem  item={item}  pHandler={pressHandler}/>
+            )}
+            />
+        &lt;/View>
+        &lt;/View>
+    
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    },
+    list:{
+
+    }
+    
+});
+    </code>  
+ </pre>
+</div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+
+<div class="row">
+ 
+
+    <div class="col-lg-12">
+        components/todoItem.js
+        <br>
+        When Add button is clicked then changeHandler will set the value and when button is clicked that value is send to App.js and bind to todos list.
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import  { useState } from 'react';
+import { StyleSheet, View, TextInput, Button } from 'react-native';
+
+export default function AddTodo({ submitHandler }) {
+    [text, setText] = useState('');
+
+    const changeHandler = (val) => {
+    setText(val);
+    };
+
+    return (
+    &lt;View>
+        &lt;TextInput 
+        style={styles.input} 
+        placeholder='new todo...'
+        onChangeText={changeHandler} 
+        value={text} 
+        />
+        &lt;Button color='coral' onPress={() => submitHandler(text)} title='add todo' />
+    &lt;/View>
+    );
+}
+
+const styles = StyleSheet.create({
+    input: {
+    marginBottom: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    },
+});
+    </code>  
+ </pre>
+    </div>
+ 
+
+</div>
+</div>
+
+<h2> Adding TouchableWIthoutFeedback and Keyboard</h2>
+When you start to type in text box , then you want to detect changes when you clicked outside the textbox and then when clicked anywhere dismiss then keyboard as well.
+
+
+<div class="row">
+    <div class="col-lg-6">
+        App.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+                ....
+                import { StyleSheet, Text, View, FlatList,Alert,<kbd>TouchableWithoutFeedback,Keyboard</kbd> } from 'react-native';
+                .... 
+
+                ....
+                return (
+              <kbd>  &lt;TouchableWithoutFeedback onPress={()=>{
+                console.log('Touching...');
+                Keyboard.dismiss();
+                }}></kbd>
+                &lt;View style={styles.container}>
+                &lt;Header/>
+                &lt;View style={styles.content}>
+                    &lt;AddTodo  submitHandler={submitHandler} />
+                    &lt;View style={styles.list}>
+                    &lt;FlatList
+                    data={todos}
+                    renderItem={({item})=>(
+                        &lt;TodoItem  item={item}  pHandler={pressHandler}/>
+                    )}
+                    />
+                    &lt;/View>
+                &lt;/View>
+                
+                &lt;/View>
+                <kbd>&lt;/TouchableWithoutFeedback></kbd>
+            );
+
+  ......
+                
+    </code>  
+ </pre>
+</div>
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+<h2>Using MaterialIcon</h2>
+<div class="row">
+    <div class="col-lg-6">
+        App.js
+        <pre data-keep-tags="kbd, em">
+            <code class="language-javascript">
+import { StyleSheet, Text,TouchableOpacity ,View} from 'react-native';
+<kbd>import {MaterialIcons} from '@expo/vector-icons';</kbd>
+
+export default function TodoItem({item,pHandler}){
+    return (
+        &lt;TouchableOpacity onPress={()=>pHandler(item.key)}>
+            &lt;View style={styles.item}>
+            &lt;Text style={styles.itemText}>{item.text}&lt;/Text>
+         <kbd>&lt;MaterialIcons name='delete' size={18} color='#333' /></kbd>
+            &lt;/View>
+        &lt;/TouchableOpacity>
+    )
+}
+
+const styles = StyleSheet.create({
+    item:{
+        padding:20,
+        marginTop:16,
+        borderColor:'#bbb',
+        borderWidth:1,
+        borderStyle:'dashed',
+        borderRadius:10,
+        textAlign:'center',
+        flexDirection:'row',
+        justifyContent:'space-between'
+        
+    },
+    itemText:{
+        marginLeft:10
+
+    }
+})
+
+</code>
+</pre>
+</div>
+</div>
+
+
+//Reset Expo Cache : expo r -c
+
+    <script src="../EF/js/prism.js"></script>
+    <script type="text/javascript">
+        Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+
+    </script>
+</body>
+
+</html>
