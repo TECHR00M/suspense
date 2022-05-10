@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../ASP Sandbox/css/bootstrap.css">
+    <link rel="stylesheet" href="../ASP Sandbox/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="../ASP Sandbox/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../ASP Sandbox/css/dracula.css">
+    <link rel="stylesheet" href="../ASP Sandbox/css/dracula-prism.css">
+    <link rel="icon" type="image/x-icon" href="https://draculatheme.com/assets/img/favicon.ico">
+
+    <style>
+      kbd {
+          background: black
+      }
+  </style>
+</head>
+<body>
+    <p><span style="font-family: georgia, palatino, serif;"><em><span style="text-decoration: underline;"><span style="font-size: 18pt;"><strong>SCALE FROM ZERO TO MILLIONS OF USERS</strong></span></span></em></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 18pt;">Single Server Setup&nbsp;</span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">A journey of a thousand miles begins with a single step, and building a complex system is no different. To start with something simple, everything is running on a single server. Figure 1-1 shows the illustration of a single server setup where everything is running on one server: web app, database, cache, etc.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/TkhBSvz/single-server-setup.jpg" /></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;">Traffic Flow:</span></strong></span></p>
+    <ol>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Users access websites through domain names, such as api.mysite.com or www.mysite.com. Usually, the Domain Name System (DNS) is a paid service provided by 3rd parties and not hosted by our servers.</span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">. Internet Protocol (IP) address is returned to the browser or mobile app. In the example, IP address 15.125.23.214 is returned. </span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">. Once the IP address is obtained, Hypertext Transfer Protocol (HTTP) [1] requests are sent directly to your web server. </span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">. The web server returns HTML pages or JSON responses for rendering.</span></li>
+    </ol>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">In this case we have Web Server and database server in same place.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Introduction of the database server</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/wWYZkSz/database-and-web-server.jpg" width="626" height="360" /></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">With the growth of the user base, one server is not enough, and we need multiple servers: one for web/mobile traffic, the other for the database.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Separating web/mobile traffic (web tier) and database (data tier) servers allow them to be scaled independently.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Then which database to choose:</span></p>
+    <ol>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Relational Database:Relational databases represent and store data in tables and rows. The most popular ones are MySQL, Oracle database, PostgreSQL, etc.&nbsp;</span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Non-Relational Database: They are no sql databases.Eg. CouchDB, Neo4j, Cassandra, HBase, Amazon DynamoDB. These databases are grouped into four categories: key-value stores, graph stores, column stores, and document stores. Join operations are generally not supported in non-relational databases.&nbsp;</span></li>
+    </ol>
+    <p><span style="color: #000000; font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;">Non-relational databases might be the right choice if: </span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&bull; Your application requires super-low latency. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&bull; Your data are unstructured, or you do not have any relational data.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"> &bull; You only need to serialize and deserialize data (JSON, XML, YAML, etc.).</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"> &bull; You need to store a massive amount of data</span></p>
+    <p><span style="text-decoration: underline; font-family: georgia, palatino, serif;"><strong><span style="font-size: 18pt;">Vertical Scaling vs Horizontal Scaling&nbsp;</span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Vertical scaling, referred to as &ldquo;<span style="color: #e03e2d;"><strong>scale up</strong></span>&rdquo;, means <strong>the process of adding more power (CPU, RAM, etc.) to your servers. </strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Horizontal scaling referred to as &ldquo;<strong><span style="color: #e03e2d;">scale-out</span></strong>&rdquo;, allows you to <strong>scale by adding more servers into your pool of resources. </strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><strong>When traffic is low</strong>, vertical scaling is a great option, and the simplicity of vertical scaling is its main advantage. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Unfortunately, it comes with serious limitations. &bull; Vertical scaling has a hard limit. It is impossible to add unlimited CPU and memory to a single server.&nbsp;</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"> Vertical scaling does not have failover and redundancy. If one server goes down, the website/app goes down with it completely. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Horizontal scaling is more desirable for large scale applications due to the limitations of vertical scaling.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"> In the previous design, users are connected to the webserver directly. Users will unable to access the website if the webserver is offline. In another scenario, if many users access the webserver simultaneously and it reaches the web server&rsquo;s load limit, users generally experience a slower response or fail to connect to the server. <span style="color: #000000;"><strong>A <span style="color: #e03e2d;">load balancer</span> is the best technique to address these problems.</strong></span></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #000000;"><strong>Load Balancer</strong></span></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #000000;">A load balancer evenly distributes incoming traffic among web servers that are defined in a load-balanced set. </span></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #000000;"><strong><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/PNtrCKB/load-balancing.jpg" /></strong></span></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">As shown in Figure above, users connect to the public IP of the load balancer directly. With this setup, web servers are unreachable directly by clients anymore.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"> For better security, private IPs are used for communication between servers. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">A private IP is an IP address reachable only between servers in the same network; however, it is unreachable over the internet. The load balancer communicates with web servers through private IPs. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">In Figure above, after a load balancer and a second web server are added, we successfully solved no failover issue and improved the availability of the web tier. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Details are explained below: &bull; </span></p>
+    <ol>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #2dc26b;"><strong>If server 1 goes offline</strong></span>, all the traffic will be routed to server </span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">. <span style="color: #2dc26b;">This prevents the website from going offline.</span> We will also add a new healthy web server to the server pool to balance the load. &bull; If the website traffic grows rapidly, and two servers are not enough to handle the traffic, the load balancer can handle this problem gracefully. You only need to add more servers to the webserver pool, and the load balancer automatically starts to send requests to them. Now the web tier looks good, what about the data tier? The current design has one database, so it does not support failover and redundancy. <strong><span style="color: #e03e2d;">Database replication is a common technique to address those problems.</span></strong> Let us take a look.</span></li>
+    </ol>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 18pt;">Database Replication</span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">A master database generally only supports write operations. A slave database gets copies of the data from the master database and only supports read operations. All the data-modifying commands like insert, delete, or update must be sent to the master database. Most applications require a much higher ratio of reads to writes; thus, the number of slave databases in a system is usually larger than the number of master databases.</span></p>
+    <p><br /><span style="font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/By2gGs3/master-slave-database-replication.jpg" /></span></p>
+    <ul>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">If one slave fails no problem other can provides read operation.</span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">There will also be multiple master DB , if one fails other can provides.</span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Also If the master database goes offline, a slave database will be promoted to be the new master. All the database operations will be temporarily executed on the new master database&nbsp;</span></li>
+    </ul>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 18pt;">What we have learn up to now ?</span></strong></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/4dYYBbk/basic-to-advance-balancing-load.jpg" /></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Let us take a look at the design: </span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;">&bull;A user gets the <span style="color: #2dc26b;">IP address</span> of the <span style="color: #2dc26b;">load balancer</span> from DNS. </span></strong></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;">&bull; A user connects the load balancer with this IP address.</span></strong></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;"> &bull; The HTTP request is routed to either Server 1 or Server 2.</span></strong></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;"> &bull; A web server reads user data from a slave database. </span></strong></span></p>
+    <p><span style="font-family: georgia, palatino, serif;"><strong><span style="font-size: 14pt;">&bull; A web server routes any data-modifying operations to the master database. This includes write, update, and delete operations. </span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Now its time to improve request/response time&nbsp;</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">This can be done by adding cache layer and shifting static content (JavaScript/CSS/image/video files) to the content delivery network (CDN).&nbsp;</span></p>
+    <p><span style="text-decoration: underline; font-size: 18pt;"><span style="font-family: georgia, palatino, serif;"><strong>Cache tier </strong></span></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">The cache tier is a temporary data store layer, much faster than the database. The benefits of having a separate cache tier include better system performance, the ability to reduce database workloads, and the ability to scale the cache tier independently.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/84Dnc6m/horizontal-and-vertical-scaling.jpg" /></span></p>
+    <p><span style="text-decoration: underline;"><strong><span style="font-size: 18pt; font-family: georgia, palatino, serif;">CDN</span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">A CDN is a network of geographically dispersed servers used to deliver static content. CDN servers cache static content like images, videos, CSS, JavaScript files, etc. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Dynamic content caching is a relatively new concept and beyond the scope of this book.</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #e03e2d;"><strong>How CDN works at the high-level:</strong></span> when a user visits a website, a CDN server closest to the user will deliver static content. Intuitively, the further users are from CDN servers, the slower the website loads. For example, if CDN servers are in San Francisco, users in Los Angeles will get content faster than users in Europe. Figure 1-9 is a great example that shows how CDN improves load time.</span></p>
+    <p><span style="font-size: 14pt;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/jf5rh4J/cdn-flow.jpg" width="646" height="222" /></span></p>
+    <p><span style="font-size: 14pt;">WorkFlow:</span></p>
+    <p><span style="font-size: 14pt;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/r7ZVB54/complete-workflow-CDN.jpg" width="701" height="221" /></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&nbsp;1 ) User A tries to get image.png by using an image URL. The URL&rsquo;s domain is provided by the CDN provider. The following two image URLs are samples used to demonstrate what image URLs look like on Amazon and Akamai CDNs: </span></p>
+    <ul>
+    <li><span style="font-size: 14pt;">&nbsp;<a href="https://mysite.cloudfront.net/logo.jpg" aria-invalid="true">https://mysite.cloudfront.net/logo.jpg</a>&nbsp;</span></li>
+    <li><span style="font-size: 14pt;"> <a href="https://mysite.akamai.com/image-manager/img/logo.jpg" aria-invalid="true">https://mysite.akamai.com/image-manager/img/logo.jpg</a></span></li>
+    </ul>
+    <p><span style="font-family: georgia, palatino, serif;"><span style="font-size: 14pt;">2) </span><span style="font-size: 14pt;">&nbsp;If the CDN server does not have image.png in the cache, the CDN server requests the file from the origin, which can be a web server or online storage like Amazon S3.&nbsp;</span></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">3) The origin returns image.png to the CDN server, which includes the optional HTTP header Time-to-Live (TTL) which describes how long the image is cached. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">4) The CDN caches the image and returns it to User A. The image remains cached in the CDN until the TTL expires. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">5) User B sends a request to get the same image. 6. The image is returned from the cache as long as the TTL has not expired. </span></p>
+    <p><span style="font-size: 14pt;"><span style="text-decoration: underline;"><strong><span style="font-size: 18pt;">Considerations of using a CDN</span></strong></span>&nbsp;</span></p>
+    <ul>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #2dc26b;"><strong> Cost</strong></span>: CDNs are run by third-party providers, and you are charged for data transfers in and out of the CDN. Caching infrequently used assets provides no significant benefits so you should consider moving them out of the CDN.</span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><span style="color: #2dc26b;"><strong>Setting an appropriate cache expiry</strong></span>: For time-sensitive content, setting a cache expiry time is important. The cache expiry time should neither be too long nor too short. If it is too long, the content might no longer be fresh. If it is too short, it can cause repeat reloading of content from origin servers to the CDN.</span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><strong><span style="color: #2dc26b;">CDN fallback</span></strong>: You should consider how your website/application copes with CDN failure. If there is a temporary CDN outage, clients should be able to detect the problem and request resources from the origin </span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&nbsp;<span style="color: #2dc26b;"><strong>Invalidating files</strong></span>: You can remove a file from the CDN before it expires by performing one of the following operations:</span></li>
+    </ul>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Invalidate the CDN object using APIs provided by CDN vendors.&nbsp;</span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Use object versioning to serve a different version of the object. To version an object, you can add a parameter to the URL, such as a version&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;number. For example, version number 2 is added to the query string: image.png?v=2. </span></p>
+    <p><span style="font-size: 14pt;">Up to Now:</span></p>
+    <p><span style="font-size: 14pt;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/3hn9m2b/overall-with-cache-and-cdn.jpg" /></span></p>
+    <ol>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Static assets (JS, CSS, images, etc.,) are no longer served by web servers. They are fetched from the CDN for better performance. </span></li>
+    <li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&nbsp;The database load is lightened by caching data </span></li>
+    </ol>
+    <p><strong><span style="font-size: 18pt; font-family: georgia, palatino, serif;">Stateless Web Tier</span></strong></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Now it is time to consider scaling the <strong><span style="color: #e03e2d;">web tier horizontally</span></strong>. For this, we need to move state (for instance user session data) out of the web tier. A good practice is to store session data in the persistent storage such as <strong><span style="color: #2dc26b;">relational database or NoSQL</span></strong>. <strong>Each web server in the cluster can access state data from databases. This is called a stateless web tier. </strong></span></p>
+    <p><strong><span style="font-size: 18pt; font-family: georgia, palatino, serif;">Stateful Architecture</span></strong></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">A stateful server and stateless server has some key differences. A stateful server remembers client data (state) from one request to the next. A stateless server keeps no state information.</span></p>
+    <p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/Zmntf1q/stateless-architecture.jpg" width="869" height="467" /></p>
+    <p style="text-align: justify;"><span style="font-size: 14pt; font-family: georgia, palatino, serif;">user A&rsquo;s session data and profile image are stored in Server 1. To authenticate User A, HTTP requests must be routed to Server 1. If a request is sent to other servers like Server 2, authentication would fail because Server 2 does not contain User A&rsquo;s session data. Similarly, all HTTP requests from User B must be routed to Server 2; all requests from User C must be sent to Server 3. The issue is that every request from the same client must be routed to the same server. This can be done with sticky sessions in most load balancers [10]; however, this adds the overhead. Adding or removing servers is much more difficult with this approach. It is also challenging to handle server failures. </span></p>
+    <p><span style="text-decoration: underline;"><strong><span style="font-family: georgia, palatino, serif; font-size: 18pt;">Stateless architecture </span></strong></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/rFK2yz4/shared-storage.jpg" /></span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">In this stateless architecture, HTTP requests from users can be sent to any web servers, which fetch state data from a shared data store. State data is stored in a shared data store and kept out of web servers. A stateless system is simpler, more robust, and scalable. </span></p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/ySJYXqM/shared-session-storage.jpg" /></span></p>
+    <p>&nbsp;</p>
+    <p><span style="font-size: 14pt; font-family: georgia, palatino, serif;">we move the session data out of the web tier and store them in the persistent data store. The shared data store could be a relational database, <span style="color: #e03e2d;"><strong>Memcached/Redis, NoSQL</strong></span>, etc. The NoSQL datastore is chosen as it is easy to scale. Autoscaling means adding or removing web servers automatically based on the traffic load. After the state data is removed from web servers, auto-scaling of the web tier is easily achieved by adding or removing servers based on traffic load. Your website grows rapidly and attracts a significant number of users internationally. To improve availability and provide a better user <strong><span style="color: #e03e2d;">experience across wider geographical areas</span></strong>, supporting multiple data centers is crucial. </span></p>
+  <code class="language-xml">
+
+  </code>
+</pre>
+
+<script src="../ASP Sandbox/js/prism.js"></script>
+<script type="text/javascript">
+  Prism.plugins.NormalizeWhitespace.setDefaults(
+            {
+                'remove-trailing': true,
+                'remove-indent': true,
+                'left-trim': true,
+                'right-trim': true,
+                // 'break-lines': 10,
+                // 'indent': 2,
+                // 'remove-initial-line-feed': false,
+                // 'tabs-to-spaces': 4,
+                // 'spaces-to-tabs': 4
+            });
+
+
+        (function () {
+            if (!self.Prism) {
+                return;
+            }
+
+            var div = document.createElement('div');
+
+            Prism.hooks.add('before-highlight', function (env) {
+                var elt = env.element;
+                if (!elt.hasAttribute('data-keep-tags') && elt.parentNode.tagName.toLowerCase() === 'pre') {
+                    elt = elt.parentNode;
+                }
+                var tags = elt.getAttribute('data-keep-tags');
+                if (!tags) {
+                    return;
+                }
+                var placeholder = elt.getAttribute('data-keep-tags-placeholder') || '___KEEPTAGS{n}___';
+
+                env.keepTags = true;
+                env.keepTagsPlaceholder = placeholder;
+
+                tags = tags.split(/\s*,\s*/).join('|');
+                var tags_regex = RegExp('<(' + tags + ')>([\\s\\S]*?)</\\1>', 'g');
+
+                env.keepTagsRegex = tags_regex;
+
+                env.tokenStack = [];
+                env.backupCode = env.code;
+
+                var code = env.element.innerHTML;
+                code = code.replace(tags_regex, function (match) {
+                    env.tokenStack.push(match);
+                    return placeholder.replace('{n}', env.tokenStack.length);
+                });
+                env.element.innerHTML = code;
+                code = env.element.textContent;
+                code = code.replace(/^(?:\r?\n|\r)/, '');
+
+                env.code = code;
+            });
+
+            Prism.hooks.add('after-highlight', function (env) {
+                if (!env.keepTags) {
+                    return;
+                }
+                for (var i = 0, t; t = env.tokenStack[i]; i++) {
+
+                    t = t.replace(env.keepTagsRegex, function (match, tag, inside) {
+                        div.innerHTML = inside;
+                        inside = div.textContent;
+                        return '<' + tag + '>' + Prism.highlight(inside, env.grammar, env.language) + '</' + tag + '>';
+                    });
+
+                    env.highlightedCode = env.highlightedCode.replace(env.keepTagsPlaceholder.replace('{n}', i + 1), t);
+                    env.element.innerHTML = env.highlightedCode;
+                }
+            });
+
+        }());
+
+        Array.prototype.slice.call(document.querySelectorAll("pre,code")).forEach(function (v) {
+            v.classList.add("language-sql");
+        });
+        Prism.highlightAll();
+</script>
+</body>
+</html>
