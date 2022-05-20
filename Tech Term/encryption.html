@@ -1,0 +1,19 @@
+<p><span style="font-size: 18pt; font-family: georgia, palatino, serif;">Encryption is the process of taking the message and scrambling it so that only certain people can look at the message.</span></p>
+<p><span style="font-size: 18pt; font-family: georgia, palatino, serif; color: #169179;">Symmetric Encryption</span></p>
+<ul>
+<li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">Symmetric Encryption is a type of encryption where<strong><span style="color: #169179;"> only one key (a secret key) </span></strong>is used to both encrypt and decrypt data.</span></li>
+<li><span style="font-size: 14pt; font-family: georgia, palatino, serif;"> The entities communicating via symmetric encryption must exchange the key so that it can be used in the decryption process.&nbsp;</span></li>
+<li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">AES, DES, IDEA, Blowfish, RC5 and RC6&nbsp; and RC4 are cipher used in Symmetric encryption.</span></li>
+<li><span style="font-size: 14pt; font-family: georgia, palatino, serif;">&nbsp;Encrypted message are called ciphertext </span></li>
+</ul>
+<p><strong><span style="font-size: 18pt;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.ibb.co/CMTxGLH/symmetric-encryption.png" /><span style="color: #169179;">Asymmetric Encryption</span></span></strong></p>
+<ul>
+<li><span style="font-size: 14pt;">Suppose two person A and B wants to transfer message.</span></li>
+<li><span style="font-size: 14pt;">First both A and B generates its own Private and Public Key. Lets say key are created using RSA algorithm. </span></li>
+<li><span style="font-size: 14pt;">Note:Private key and Public key are mathematically linked to each other. But they cannot be derived from each other. ie. If you know someone public key you cannot derived private key. Also Note, message can be locked and unlocked with same public/private key.</span></li>
+<li><span style="font-size: 14pt;">Public Key is always used to encrypted the data and matching private key can only decrypted the data.</span></li>
+<li><span style="font-size: 14pt;">Now public key of A and B are broadcast. So that A received Public Key of B and B received public Key of A.</span></li>
+<li><span style="font-size: 14pt;">Now suppose A wants to send message to B, A encrypt his message with B public key and send encrypted message to B . Now B recieved the encrypted message which B decrypt using her Private Key.Not even A can decrypt this message.</span></li>
+<li><span style="font-size: 14pt;">So main things is A and B has to keep thsse private and public key secretly.</span></li>
+<li><span style="font-size: 14pt;">Used in Https web,SSL, SSH, Bitcoin, PGP&nbsp;</span></li>
+</ul>
